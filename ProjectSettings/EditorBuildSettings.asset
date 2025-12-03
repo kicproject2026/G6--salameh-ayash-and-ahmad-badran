@@ -12,6 +12,7 @@ EditorBuildSettings:
     path: Assets/Meeting_Room/Meeting_Room.unity
     guid: 22ad4d5363f9db14186bb49c0d2271ea
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: cfffe8d44eb2558479c23a585f85a2e6, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 3de02ff41f5feac40b4b29c204346aaf, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e2e623d97ce40274a8235023ac1905fc, type: 2}

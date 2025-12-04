@@ -3,28 +3,29 @@ using UnityEngine;
 
 public class SimpleNetworkUI : MonoBehaviour
 {
-    void OnGUI()
+    [SerializeField] private NetworkManager networkManager;
+
+    private void OnGUI()
     {
-        const int width = 200;
-        const int height = 40;
-        const int padding = 10;
-
-        if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
+        if (networkManager == null)
         {
-            if (GUI.Button(new Rect(padding, padding, width, height), "Host"))
-            {
-                NetworkManager.Singleton.StartHost();
-            }
-
-            if (GUI.Button(new Rect(padding, padding * 2 + height, width, height), "Join"))
-            {
-                NetworkManager.Singleton.StartClient();
-            }
+            GUILayout.Label("NetworkManager reference missing!");
+            return;
         }
-        else
+
+        if (!networkManager.IsClient && !networkManager.IsServer)
         {
-            string mode = NetworkManager.Singleton.IsServer ? "Host" : "Client";
-            GUI.Label(new Rect(padding, padding, 300, height), "Running as: " + mode);
+            if (GUILayout.Button("Host"))
+            {
+                networkManager.StartHost();
+                Debug.Log("Running as HOST");
+            }
+
+            if (GUILayout.Button("Join"))
+            {
+                networkManager.StartClient();
+                Debug.Log("Running as CLIENT");
+            }
         }
     }
 }

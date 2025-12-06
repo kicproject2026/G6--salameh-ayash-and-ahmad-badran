@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8399948783261072754}
   - component: {fileID: 566312138796277974}
   - component: {fileID: -7038575172342278652}
-  - component: {fileID: 9203891126327900505}
+  - component: {fileID: 4274289691944930854}
   m_Layer: 0
   m_Name: VRAvatar
   m_TagString: Untagged
@@ -70,7 +70,10 @@ MonoBehaviour:
     component: {fileID: -7038575172342278652}
     isDeprecated: 0
   - componentID: 5
-    component: {fileID: 9203891126327900505}
+    component: {fileID: 0}
+    isDeprecated: 1
+  - componentID: 6
+    component: {fileID: 4274289691944930854}
     isDeprecated: 0
   _childViews:
   - componentID: 1
@@ -127,7 +130,7 @@ MonoBehaviour:
   _syncScale: 1
   _syncVelocity: 1
   _maintainOwnershipWhileSleeping: 0
---- !u!114 &9203891126327900505
+--- !u!114 &4274289691944930854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

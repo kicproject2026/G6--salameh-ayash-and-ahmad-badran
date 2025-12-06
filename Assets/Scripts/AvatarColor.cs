@@ -1,24 +1,42 @@
 using UnityEngine;
 using Normal.Realtime;
 
-public class AvatarColor : MonoBehaviour
+public class AvatarColor : RealtimeComponent<AvatarColorModel>
 {
     public Renderer bodyRenderer;
 
-    void Start()
+    protected override void OnRealtimeModelReplaced(AvatarColorModel previousModel, AvatarColorModel currentModel)
     {
-        // Get the RealtimeView on this avatar
-        var view = GetComponent<RealtimeView>();
+        if (previousModel != null) {
+            previousModel.bodyColorDidChange -= ColorDidChange;
+        }
 
-        if (view != null && view.isOwnedLocallySelf)
-        {
-            // This is ME (local player)
-            bodyRenderer.material.color = Color.cyan;
+        if (currentModel != null) {
+            
+            if (currentModel.isFreshModel && realtimeView.isOwnedLocallySelf) {
+                // Determine color based on role
+                if (SessionData.CurrentUser != null && SessionData.CurrentUser.role == "Doctor") {
+                    currentModel.bodyColor = Color.cyan;
+                } else {
+                    // random color for patients
+                    currentModel.bodyColor = Random.ColorHSV(0f, 1f, 0.5f, 1f, 0.7f, 1f);
+                }
+            }
+
+            // Apply color now
+            ApplyColor(currentModel.bodyColor);
+
+            // Listen for changes
+            currentModel.bodyColorDidChange += ColorDidChange;
         }
-        else
-        {
-            // This is ANOTHER player
-            bodyRenderer.material.color = Color.red;
-        }
+    }
+
+    private void ColorDidChange(AvatarColorModel model, Color color) {
+        ApplyColor(color);
+    }
+
+    private void ApplyColor(Color color) {
+        if (bodyRenderer != null)
+            bodyRenderer.material.color = color;
     }
 }

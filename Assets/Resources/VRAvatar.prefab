@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6800390419161660509}
   - component: {fileID: 815668405374142170}
   - component: {fileID: 8399948783261072754}
+  - component: {fileID: 566312138796277974}
+  - component: {fileID: -7038575172342278652}
   m_Layer: 0
   m_Name: VRAvatar
   m_TagString: Untagged
@@ -57,6 +59,15 @@ MonoBehaviour:
   - componentID: 1
     component: {fileID: 8399948783261072754}
     isDeprecated: 0
+  - componentID: 2
+    component: {fileID: 0}
+    isDeprecated: 1
+  - componentID: 3
+    component: {fileID: 566312138796277974}
+    isDeprecated: 0
+  - componentID: 4
+    component: {fileID: -7038575172342278652}
+    isDeprecated: 0
   _childViews:
   - componentID: 1
     component: {fileID: 7154873808820970079}
@@ -82,6 +93,36 @@ MonoBehaviour:
   _head: {fileID: 4767326363065482379}
   _leftHand: {fileID: 1165037877322631181}
   _rightHand: {fileID: 5674614548569481248}
+--- !u!114 &566312138796277974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418494279512765053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4ff7916cbc1db4dae0b06d829ff79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Normal.Realtime.Shared::Normal.Realtime.RealtimeAvatarVoice
+--- !u!114 &-7038575172342278652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418494279512765053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029778088, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Normal.Realtime.dll::Normal.Realtime.RealtimeTransform
+  _interpolate: 1
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 1
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 0
 --- !u!1 &3982855624034173083
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +430,7 @@ GameObject:
   - component: {fileID: 4767326363065482379}
   - component: {fileID: 7154873808820970079}
   - component: {fileID: 3330664005926059820}
+  - component: {fileID: -139605556887186271}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -433,6 +475,9 @@ MonoBehaviour:
   - componentID: 1
     component: {fileID: 3330664005926059820}
     isDeprecated: 0
+  - componentID: 2
+    component: {fileID: -139605556887186271}
+    isDeprecated: 0
   _childViews: []
 --- !u!114 &3330664005926059820
 MonoBehaviour:
@@ -452,6 +497,18 @@ MonoBehaviour:
   _syncScale: 1
   _syncVelocity: 1
   _maintainOwnershipWhileSleeping: 0
+--- !u!114 &-139605556887186271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6351387963493795707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4ff7916cbc1db4dae0b06d829ff79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Normal.Realtime.Shared::Normal.Realtime.RealtimeAvatarVoice
 --- !u!1 &7937616946158742094
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,42 +1,64 @@
 using UnityEngine;
+using TMPro;
 using Normal.Realtime;
 
-public class AvatarColor : RealtimeComponent<AvatarColorModel>
-{
-    public Renderer bodyRenderer;
+public class AvatarColor : RealtimeComponent<AvatarColorModel> {
+    [Header("Visual References")]
+    public Renderer bodyRenderer;   // body mesh
+    public TMP_Text nameText;       // text above head
 
-    protected override void OnRealtimeModelReplaced(AvatarColorModel previousModel, AvatarColorModel currentModel)
-    {
+    protected override void OnRealtimeModelReplaced(AvatarColorModel previousModel, AvatarColorModel currentModel) {
         if (previousModel != null) {
-            previousModel.bodyColorDidChange -= ColorDidChange;
+            previousModel.bodyColorDidChange   -= OnBodyColorDidChange;
+            previousModel.displayNameDidChange -= OnDisplayNameDidChange;
         }
 
         if (currentModel != null) {
-            
+            // First time this avatar is created and we own it
             if (currentModel.isFreshModel && realtimeView.isOwnedLocallySelf) {
-                // Determine color based on role
-                if (SessionData.CurrentUser != null && SessionData.CurrentUser.role == "Doctor") {
-                    currentModel.bodyColor = Color.cyan;
+                bool isDoctor = SessionData.CurrentUser != null &&
+                                SessionData.CurrentUser.role == "Doctor";
+
+                // 1) Body color
+                if (isDoctor) {
+                    currentModel.bodyColor = Color.blue;
                 } else {
-                    // random color for patients
-                    currentModel.bodyColor = Random.ColorHSV(0f, 1f, 0.5f, 1f, 0.7f, 1f);
+                    currentModel.bodyColor = Color.cyan;
                 }
+
+                // 2) Display name
+                string username = SessionData.CurrentUser != null
+                    ? SessionData.CurrentUser.username
+                    : "User";
+
+                currentModel.displayName = isDoctor ? $"Dr. {username}" : $"Patient. {username}";
             }
 
-            // Apply color now
-            ApplyColor(currentModel.bodyColor);
+            // Apply current values now
+            ApplyBodyColor(currentModel.bodyColor);
+            ApplyDisplayName(currentModel.displayName);
 
-            // Listen for changes
-            currentModel.bodyColorDidChange += ColorDidChange;
+            // Listen for changes from network
+            currentModel.bodyColorDidChange   += OnBodyColorDidChange;
+            currentModel.displayNameDidChange += OnDisplayNameDidChange;
         }
     }
 
-    private void ColorDidChange(AvatarColorModel model, Color color) {
-        ApplyColor(color);
+    private void OnBodyColorDidChange(AvatarColorModel model, Color value) {
+        ApplyBodyColor(value);
     }
 
-    private void ApplyColor(Color color) {
+    private void OnDisplayNameDidChange(AvatarColorModel model, string value) {
+        ApplyDisplayName(value);
+    }
+
+    private void ApplyBodyColor(Color color) {
         if (bodyRenderer != null)
             bodyRenderer.material.color = color;
+    }
+
+    private void ApplyDisplayName(string displayName) {
+        if (nameText != null && !string.IsNullOrEmpty(displayName))
+            nameText.text = displayName;
     }
 }

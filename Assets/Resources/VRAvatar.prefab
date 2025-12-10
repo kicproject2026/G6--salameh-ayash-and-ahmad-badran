@@ -122,12 +122,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6800390419161660509}
-  - component: {fileID: 815668405374142170}
   - component: {fileID: 8399948783261072754}
+  - component: {fileID: 815668405374142170}
   - component: {fileID: 566312138796277974}
   - component: {fileID: -7038575172342278652}
   - component: {fileID: 4274289691944930854}
-  - component: {fileID: 6753903808677885732}
+  - component: {fileID: 7136881964310239006}
   m_Layer: 0
   m_Name: VRAvatar
   m_TagString: Untagged
@@ -153,6 +153,21 @@ Transform:
   - {fileID: 5674614548569481248}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8399948783261072754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418494279512765053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08dff4fb3b027234c8a2562e96aa0846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Normal.Realtime.Shared::Normal.Realtime.RealtimeAvatar
+  _head: {fileID: 4767326363065482379}
+  _leftHand: {fileID: 1165037877322631181}
+  _rightHand: {fileID: 5674614548569481248}
 --- !u!114 &815668405374142170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,21 +226,6 @@ MonoBehaviour:
   - componentID: 3
     component: {fileID: 5544755650468462974}
     isDeprecated: 0
---- !u!114 &8399948783261072754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418494279512765053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08dff4fb3b027234c8a2562e96aa0846, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Normal.Realtime.Shared::Normal.Realtime.RealtimeAvatar
-  _head: {fileID: 4767326363065482379}
-  _leftHand: {fileID: 1165037877322631181}
-  _rightHand: {fileID: 5674614548569481248}
 --- !u!114 &566312138796277974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,103 +270,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AvatarColor
   bodyRenderer: {fileID: 3325698831235410109}
   nameText: {fileID: 5488716047857749123}
---- !u!82 &6753903808677885732
-AudioSource:
+--- !u!114 &7136881964310239006
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418494279512765053}
   m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cff8cae61b20a6843b2245a3c8abfe77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoiceMicIcon
+  micIcon: {fileID: 3814167390830818992}
+  checkInterval: 0.05
+  volumeThreshold: 0.02
 --- !u!1 &1637062437098435320
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4667621920931145857
 Transform:
   m_ObjectHideFlags: 0
@@ -509,8 +427,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3814167390830818992}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.537, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.53699994, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1272,7 +1190,6 @@ GameObject:
   - component: {fileID: 7154873808820970079}
   - component: {fileID: 3330664005926059820}
   - component: {fileID: -139605556887186271}
-  - component: {fileID: 1851633091948192931}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -1296,8 +1213,8 @@ Transform:
   - {fileID: 7505885704239203173}
   - {fileID: 1929579564135361928}
   - {fileID: 6814517852777614011}
-  - {fileID: 5710797863337563816}
   - {fileID: 4667621920931145857}
+  - {fileID: 5710797863337563816}
   m_Father: {fileID: 6800390419161660509}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7154873808820970079
@@ -1350,26 +1267,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6351387963493795707}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd4ff7916cbc1db4dae0b06d829ff79f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Normal.Realtime.Shared::Normal.Realtime.RealtimeAvatarVoice
---- !u!114 &1851633091948192931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6351387963493795707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cff8cae61b20a6843b2245a3c8abfe77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VoiceMicIcon
-  micIcon: {fileID: 3814167390830818992}
-  checkInterval: 0.05
-  volumeThreshold: 0.02
 --- !u!1 &6719651807680733033
 GameObject:
   m_ObjectHideFlags: 0

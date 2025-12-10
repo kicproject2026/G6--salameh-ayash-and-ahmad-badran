@@ -3167,6 +3167,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 699611558}
   m_CullTransparentMesh: 1
+--- !u!20 &712880631 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 2055716336091352581, guid: 2d0926224243c2c45a0e7a9fb7240f83, type: 3}
+  m_PrefabInstance: {fileID: 1924125290}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &766736497
 GameObject:
   m_ObjectHideFlags: 0
@@ -4036,7 +4041,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974645849}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7054,6 +7059,7 @@ GameObject:
   - component: {fileID: 1742332409}
   - component: {fileID: 1742332408}
   - component: {fileID: 1742332407}
+  - component: {fileID: 1742332410}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -7130,6 +7136,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1742332410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742332406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.StandaloneInputModule
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &1763749814
 GameObject:
   m_ObjectHideFlags: 0
@@ -9012,7 +9038,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 712880631}
   m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1

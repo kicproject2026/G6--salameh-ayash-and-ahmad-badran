@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 1370153289265743916}
   - component: {fileID: 2058356435284323712}
   - component: {fileID: 4563661977528457293}
-  - component: {fileID: 4492178494381672689}
+  - component: {fileID: 3091707566748249171}
   m_Layer: 0
   m_Name: Spawn Kidney
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7059526284894566917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35,10 +35,10 @@ RectTransform:
   - {fileID: 1034664169181590562}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -200}
-  m_SizeDelta: {x: 400, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1370153289265743916
 CanvasRenderer:
@@ -122,8 +122,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4492178494381672689}
-        m_TargetAssemblyTypeName: SpawnToggle, Assembly-CSharp
+      - m_Target: {fileID: 3091707566748249171}
+        m_TargetAssemblyTypeName: SpawnToggleNetworked, Assembly-CSharp
         m_MethodName: ToggleSpawn
         m_Mode: 1
         m_Arguments:
@@ -134,7 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4492178494381672689
+--- !u!114 &3091707566748249171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,11 +143,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 196919550140668807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb33df32ee4f22489542244a5267e69, type: 3}
+  m_Script: {fileID: 11500000, guid: d1624cc5aff5d6043afd2301a1d02f0e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
-  prefab: {fileID: 1097517124705548, guid: a9431486be37d6742af7e541a53da927, type: 3}
-  spawnPoint: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
+  prefabPath: Organs/Kidney
   spawnPointTag: OrganSpawnKidney
 --- !u!1 &515197966552272220
 GameObject:
@@ -433,14 +432,14 @@ GameObject:
   - component: {fileID: 8130567825183411950}
   - component: {fileID: 854829318798770853}
   - component: {fileID: 6826350788499358872}
-  - component: {fileID: 7020085700539068995}
+  - component: {fileID: 2529596074013723140}
   m_Layer: 0
   m_Name: Spawn Intestines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2469497553687449541
 RectTransform:
   m_ObjectHideFlags: 0
@@ -456,10 +455,10 @@ RectTransform:
   - {fileID: 866753034255029462}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -305}
-  m_SizeDelta: {x: 400, y: 190}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8130567825183411950
 CanvasRenderer:
@@ -543,8 +542,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7020085700539068995}
-        m_TargetAssemblyTypeName: SpawnToggle, Assembly-CSharp
+      - m_Target: {fileID: 2529596074013723140}
+        m_TargetAssemblyTypeName: SpawnToggleNetworked, Assembly-CSharp
         m_MethodName: ToggleSpawn
         m_Mode: 1
         m_Arguments:
@@ -555,7 +554,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7020085700539068995
+--- !u!114 &2529596074013723140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -564,11 +563,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 676264302793098316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb33df32ee4f22489542244a5267e69, type: 3}
+  m_Script: {fileID: 11500000, guid: d1624cc5aff5d6043afd2301a1d02f0e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
-  prefab: {fileID: 1000013584612854, guid: 34664ecd49f20f7458b4f7357a4e7df4, type: 3}
-  spawnPoint: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
+  prefabPath: Organs/Guts
   spawnPointTag: OrganSpawnGuts
 --- !u!1 &1009831673274949276
 GameObject:
@@ -695,14 +693,14 @@ GameObject:
   - component: {fileID: 9094719146814025436}
   - component: {fileID: 4141748529348996124}
   - component: {fileID: 4134125274800728369}
-  - component: {fileID: 2989274539975566650}
+  - component: {fileID: 3496768197408255120}
   m_Layer: 0
   m_Name: Spawn Brain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8376713664283813129
 RectTransform:
   m_ObjectHideFlags: 0
@@ -718,10 +716,10 @@ RectTransform:
   - {fileID: 5438104213737148679}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -159.16667}
-  m_SizeDelta: {x: 400, y: 51.666668}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9094719146814025436
 CanvasRenderer:
@@ -805,8 +803,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2989274539975566650}
-        m_TargetAssemblyTypeName: SpawnToggle, Assembly-CSharp
+      - m_Target: {fileID: 3496768197408255120}
+        m_TargetAssemblyTypeName: SpawnToggleNetworked, Assembly-CSharp
         m_MethodName: ToggleSpawn
         m_Mode: 1
         m_Arguments:
@@ -817,7 +815,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2989274539975566650
+--- !u!114 &3496768197408255120
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -826,11 +824,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1241008408795371899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb33df32ee4f22489542244a5267e69, type: 3}
+  m_Script: {fileID: 11500000, guid: d1624cc5aff5d6043afd2301a1d02f0e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
-  prefab: {fileID: 1000012269923148, guid: cb73cf6db5aa1384cacf800cbd9138ad, type: 3}
-  spawnPoint: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
+  prefabPath: Organs/Brain
   spawnPointTag: OrganSpawnBrain
 --- !u!1 &1418494279512765053
 GameObject:
@@ -1058,14 +1055,14 @@ GameObject:
   - component: {fileID: 2654924676183836230}
   - component: {fileID: 8195181373902906988}
   - component: {fileID: 4621681035189781854}
-  - component: {fileID: 1314780538949716542}
+  - component: {fileID: 5816667099241912576}
   m_Layer: 0
   m_Name: Spawn Heart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5643378264286067717
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1081,10 +1078,10 @@ RectTransform:
   - {fileID: 8482225127109037650}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -116}
-  m_SizeDelta: {x: 400, y: 64}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2654924676183836230
 CanvasRenderer:
@@ -1168,8 +1165,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1314780538949716542}
-        m_TargetAssemblyTypeName: SpawnToggle, Assembly-CSharp
+      - m_Target: {fileID: 5816667099241912576}
+        m_TargetAssemblyTypeName: SpawnToggleNetworked, Assembly-CSharp
         m_MethodName: ToggleSpawn
         m_Mode: 1
         m_Arguments:
@@ -1180,7 +1177,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1314780538949716542
+--- !u!114 &5816667099241912576
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1189,11 +1186,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1577045914993592271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb33df32ee4f22489542244a5267e69, type: 3}
+  m_Script: {fileID: 11500000, guid: d1624cc5aff5d6043afd2301a1d02f0e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
-  prefab: {fileID: 1000011984012882, guid: 76df4166bd47d31469f8de1a579aece6, type: 3}
-  spawnPoint: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
+  prefabPath: Organs/Heart
   spawnPointTag: OrganSpawnHeart
 --- !u!1 &1637062437098435320
 GameObject:
@@ -2800,14 +2796,14 @@ GameObject:
   - component: {fileID: 5041598518379210480}
   - component: {fileID: 8212056279382727950}
   - component: {fileID: 4597823730910668349}
-  - component: {fileID: 7633560196800467966}
+  - component: {fileID: 1639913922242279584}
   m_Layer: 0
   m_Name: Spawn Liver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3866924235320680274
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2823,10 +2819,10 @@ RectTransform:
   - {fileID: 1195429845678793341}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -147.5}
-  m_SizeDelta: {x: 400, y: 85}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5041598518379210480
 CanvasRenderer:
@@ -2910,8 +2906,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7633560196800467966}
-        m_TargetAssemblyTypeName: SpawnToggle, Assembly-CSharp
+      - m_Target: {fileID: 1639913922242279584}
+        m_TargetAssemblyTypeName: SpawnToggleNetworked, Assembly-CSharp
         m_MethodName: ToggleSpawn
         m_Mode: 1
         m_Arguments:
@@ -2922,7 +2918,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7633560196800467966
+--- !u!114 &1639913922242279584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2931,11 +2927,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5883921756231367513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb33df32ee4f22489542244a5267e69, type: 3}
+  m_Script: {fileID: 11500000, guid: d1624cc5aff5d6043afd2301a1d02f0e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
-  prefab: {fileID: 1000013295729452, guid: fa26ba85421089241b1991008432ca43, type: 3}
-  spawnPoint: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
+  prefabPath: Organs/Liver
   spawnPointTag: OrganSpawnLiver
 --- !u!1 &5896846629449876651
 GameObject:

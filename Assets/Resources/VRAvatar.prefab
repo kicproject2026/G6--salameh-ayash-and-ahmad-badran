@@ -35,10 +35,10 @@ RectTransform:
   - {fileID: 1034664169181590562}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -305}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1370153289265743916
 CanvasRenderer:
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
   prefab: {fileID: 1097517124705548, guid: a9431486be37d6742af7e541a53da927, type: 3}
   spawnPoint: {fileID: 0}
-  spawnPointTag: OrganSpawnPoint
+  spawnPointTag: OrganSpawnKidney
 --- !u!1 &515197966552272220
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,10 +456,10 @@ RectTransform:
   - {fileID: 866753034255029462}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -375}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8130567825183411950
 CanvasRenderer:
@@ -569,7 +569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
   prefab: {fileID: 1000013584612854, guid: 34664ecd49f20f7458b4f7357a4e7df4, type: 3}
   spawnPoint: {fileID: 0}
-  spawnPointTag: OrganSpawnPoint
+  spawnPointTag: OrganSpawnGuts
 --- !u!1 &1009831673274949276
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,10 +718,10 @@ RectTransform:
   - {fileID: 5438104213737148679}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -165}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9094719146814025436
 CanvasRenderer:
@@ -831,7 +831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
   prefab: {fileID: 1000012269923148, guid: cb73cf6db5aa1384cacf800cbd9138ad, type: 3}
   spawnPoint: {fileID: 0}
-  spawnPointTag: OrganSpawnPoint
+  spawnPointTag: OrganSpawnBrain
 --- !u!1 &1418494279512765053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,10 +1081,10 @@ RectTransform:
   - {fileID: 8482225127109037650}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -95}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2654924676183836230
 CanvasRenderer:
@@ -1194,7 +1194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
   prefab: {fileID: 1000011984012882, guid: 76df4166bd47d31469f8de1a579aece6, type: 3}
   spawnPoint: {fileID: 0}
-  spawnPointTag: OrganSpawnPoint
+  spawnPointTag: OrganSpawnHeart
 --- !u!1 &1637062437098435320
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,10 +1557,10 @@ RectTransform:
   - {fileID: 3551439280595681739}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -25}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4248618083641949055
 CanvasRenderer:
@@ -1670,7 +1670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
   prefab: {fileID: 7127512057113049352, guid: 28f88c8215bd10c469a0d0ce4a66d9bc, type: 3}
   spawnPoint: {fileID: 0}
-  spawnPointTag: OrganSpawnPoint
+  spawnPointTag: OrganSpawnSkeleton
 --- !u!1 &3814167390830818992
 GameObject:
   m_ObjectHideFlags: 0
@@ -2824,10 +2824,10 @@ RectTransform:
   - {fileID: 1195429845678793341}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -235}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5041598518379210480
 CanvasRenderer:
@@ -2937,7 +2937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
   prefab: {fileID: 1000013295729452, guid: fa26ba85421089241b1991008432ca43, type: 3}
   spawnPoint: {fileID: 0}
-  spawnPointTag: OrganSpawnPoint
+  spawnPointTag: OrganSpawnLiver
 --- !u!1 &5896846629449876651
 GameObject:
   m_ObjectHideFlags: 0
@@ -2957,7 +2957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1528992828743742302
 RectTransform:
   m_ObjectHideFlags: 0

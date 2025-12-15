@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 3
   tags:
   - OrganSpawnPoint
+  - OrganSpawnSkeleton
+  - OrganSpawnHeart
+  - OrganSpawnLiver
+  - OrganSpawnBrain
+  - OrganSpawnGuts
+  - OrganSpawnKidney
   layers:
   - Default
   - TransparentFX

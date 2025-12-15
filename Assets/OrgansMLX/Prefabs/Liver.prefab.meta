@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fa26ba85421089241b1991008432ca43
+timeCreated: 1468959827
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Prefabs/Liver.prefab
+  uploadId: 255895

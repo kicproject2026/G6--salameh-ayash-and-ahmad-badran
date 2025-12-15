@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 94155be349b7c40478e41420207a6169
+timeCreated: 1468959827
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Prefabs/LiverHP.prefab
+  uploadId: 255895

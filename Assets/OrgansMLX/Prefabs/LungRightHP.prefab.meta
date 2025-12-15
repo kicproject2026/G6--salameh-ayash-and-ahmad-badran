@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 94d3a3a1339f1de4c940216c6abf5229
+timeCreated: 1504266146
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Prefabs/LungRightHP.prefab
+  uploadId: 255895

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f052ed0de9e421246b6464ec156d4b70
+timeCreated: 1504188788
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Materials/Lungs.mat
+  uploadId: 255895

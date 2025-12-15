@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6c708cf0d3139164e8aa4cddeaae1f37
+timeCreated: 1498564887
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Materials/Liver.mat
+  uploadId: 255895

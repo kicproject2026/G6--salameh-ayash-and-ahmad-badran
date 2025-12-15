@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8ed3d0a833aef5e468a637d9af251bac
+timeCreated: 1468959608
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Prefabs/GutsHP.prefab
+  uploadId: 255895

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cb73cf6db5aa1384cacf800cbd9138ad
+timeCreated: 1468171791
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Prefabs/Brain.prefab
+  uploadId: 255895

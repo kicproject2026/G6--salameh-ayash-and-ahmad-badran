@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 35aefe7bbeb1c164bb8938ae245a38d6
+timeCreated: 1468171780
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Prefabs/HeartHP.prefab
+  uploadId: 255895

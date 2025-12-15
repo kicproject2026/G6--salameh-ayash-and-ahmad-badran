@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1e83795885de88d40aa70b0833bdb58e
+timeCreated: 1504181371
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119135
+  packageName: Organs
+  packageVersion: 1.0
+  assetPath: Assets/OrgansMLX/Materials/Kidney.mat
+  uploadId: 255895

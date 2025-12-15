@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7059526284894566917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -305}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: 200, y: -200}
+  m_SizeDelta: {x: 400, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1370153289265743916
 CanvasRenderer:
@@ -440,7 +440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2469497553687449541
 RectTransform:
   m_ObjectHideFlags: 0
@@ -458,8 +458,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -375}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: 200, y: -305}
+  m_SizeDelta: {x: 400, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8130567825183411950
 CanvasRenderer:
@@ -702,7 +702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8376713664283813129
 RectTransform:
   m_ObjectHideFlags: 0
@@ -720,8 +720,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -165}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: 200, y: -159.16667}
+  m_SizeDelta: {x: 400, y: 51.666668}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9094719146814025436
 CanvasRenderer:
@@ -1065,7 +1065,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5643378264286067717
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1083,8 +1083,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -95}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: 200, y: -116}
+  m_SizeDelta: {x: 400, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2654924676183836230
 CanvasRenderer:
@@ -1534,7 +1534,7 @@ GameObject:
   - component: {fileID: 4248618083641949055}
   - component: {fileID: 7670089513916697872}
   - component: {fileID: 7094590782411087624}
-  - component: {fileID: 6868544241020794150}
+  - component: {fileID: 3333703265516954903}
   m_Layer: 0
   m_Name: Spawn Skeleton
   m_TagString: Untagged
@@ -1557,10 +1557,10 @@ RectTransform:
   - {fileID: 3551439280595681739}
   m_Father: {fileID: 7821589076319741339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -25}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4248618083641949055
 CanvasRenderer:
@@ -1644,8 +1644,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6868544241020794150}
-        m_TargetAssemblyTypeName: SpawnToggle, Assembly-CSharp
+      - m_Target: {fileID: 3333703265516954903}
+        m_TargetAssemblyTypeName: SpawnToggleNetworked, Assembly-CSharp
         m_MethodName: ToggleSpawn
         m_Mode: 1
         m_Arguments:
@@ -1656,7 +1656,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6868544241020794150
+--- !u!114 &3333703265516954903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1665,11 +1665,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3802099865269128567}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb33df32ee4f22489542244a5267e69, type: 3}
+  m_Script: {fileID: 11500000, guid: d1624cc5aff5d6043afd2301a1d02f0e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggle
-  prefab: {fileID: 7127512057113049352, guid: 28f88c8215bd10c469a0d0ce4a66d9bc, type: 3}
-  spawnPoint: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
+  prefabPath: Organs/SimpleSkeleton
   spawnPointTag: OrganSpawnSkeleton
 --- !u!1 &3814167390830818992
 GameObject:
@@ -2808,7 +2807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3866924235320680274
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2826,8 +2825,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -235}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: 200, y: -147.5}
+  m_SizeDelta: {x: 400, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5041598518379210480
 CanvasRenderer:
@@ -2957,7 +2956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1528992828743742302
 RectTransform:
   m_ObjectHideFlags: 0

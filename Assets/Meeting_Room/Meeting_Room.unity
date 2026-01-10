@@ -1593,8 +1593,12 @@ MonoBehaviour:
   recordCamera: {fileID: 1130279070}
   recordRT: {fileID: 8400000, guid: 1d25dbf73824dcc4e99d8c8d27307767, type: 2}
   fps: 15
+  jpgQuality: 80
+  asyncDiskWrite: 1
+  deleteFramesAfterEncode: 1
+  deleteAudioAfterEncode: 1
   outputFolderName: Recordings
-  ffmpegExePath: ffmpeg
+  ffmpegExePathFallback: ffmpeg
   audioRecorder: {fileID: 9014170783777442270}
 --- !u!4 &1632686078
 Transform:

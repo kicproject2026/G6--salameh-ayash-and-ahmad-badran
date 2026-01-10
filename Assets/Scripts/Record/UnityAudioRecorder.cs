@@ -1,3 +1,7 @@
+// UnityAudioRecorder.cs
+// Records Unity's mixed output (what you hear) to audio.wav.
+// Attach to the GameObject that has AudioListener (your Main Camera).
+
 using System.IO;
 using UnityEngine;
 
@@ -18,14 +22,13 @@ public class UnityAudioRecorder : MonoBehaviour
         if (IsRecording) return;
 
         _sampleRate = AudioSettings.outputSampleRate;
-        _channels = 2; // stereo output (what you hear)
+        _channels = 2; // stereo mix (what you hear)
         _dataLength = 0;
 
-        _path = Path.Combine(folderPath, "audio.wav");
         Directory.CreateDirectory(folderPath);
+        _path = Path.Combine(folderPath, "audio.wav");
 
         _stream = new FileStream(_path, FileMode.Create);
-
         WriteWavHeader(_stream, _sampleRate, _channels, 0);
 
         IsRecording = true;
@@ -37,7 +40,7 @@ public class UnityAudioRecorder : MonoBehaviour
         if (!IsRecording) return;
         IsRecording = false;
 
-        // Fix WAV header sizes
+        // Fix header sizes
         _stream.Seek(0, SeekOrigin.Begin);
         WriteWavHeader(_stream, _sampleRate, _channels, _dataLength);
 
@@ -48,7 +51,7 @@ public class UnityAudioRecorder : MonoBehaviour
         Debug.Log("Audio recording stopped.");
     }
 
-    // Records Unity mixed output (Normcore voices included)
+    // Unity calls this on the audio thread with the final mixed output.
     private void OnAudioFilterRead(float[] data, int channels)
     {
         if (!IsRecording || _stream == null) return;

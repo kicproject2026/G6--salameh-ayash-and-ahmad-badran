@@ -1,15 +1,18 @@
 // RecordingManager.cs
-// Fixes "sped up / too fast" recordings by:
-// 1) Using -framerate (correct for image sequences)
-// 2) Waiting for all async frame writes to finish before running FFmpeg
-// 3) Using -shortest so video ends with audio
-// 4) Keeping your bundled ffmpeg.exe in StreamingAssets
+// - Records a corner camera to JPG frames, merges with audio.wav using FFmpeg into recording.mp4
+// - Prevents "sped up" issues by using -framerate and waiting pending async writes
+// - Names folders like: DoctorName-PatientName/v001, v002, v003...
+// - Doctor name comes from SessionData.CurrentUser.username (login)
+// - Patient name is typed by doctor in a TMP_InputField (patientNameInput)
+// - Shows a TMP_Text error if Start Recording is pressed with empty patient name
+// - Error auto-hides after 3 seconds
 //
 // REQUIREMENTS:
-// - Put ffmpeg.exe here (and commit it): Assets/StreamingAssets/FFmpeg/ffmpeg.exe
-// - Attach UnityAudioRecorder to the AudioListener object (Main Camera)
-// - Assign audioRecorder in the Inspector (RecordingSystem -> RecordingManager)
+// - ffmpeg.exe at: Assets/StreamingAssets/FFmpeg/ffmpeg.exe (and commit it)
+// - UnityAudioRecorder attached to the AudioListener (Main Camera) and assigned here
+// - Assign patientNameInput + patientNameErrorText in Inspector (RecordingSystem -> RecordingManager)
 
+using TMPro;
 using System.Collections;
 using System.Diagnostics;
 using System.IO;
@@ -44,8 +47,14 @@ public class RecordingManager : MonoBehaviour
     public string outputFolderName = "Recordings";
     public string ffmpegExePathFallback = "ffmpeg"; // only used if bundled ffmpeg is missing
 
-    [Header("Audio (optional, recommended)")]
+    [Header("Audio (recommended)")]
     public UnityAudioRecorder audioRecorder;
+
+    [Header("Naming (doctor types patient name)")]
+    public TMP_InputField patientNameInput;
+
+    [Header("UI Feedback")]
+    public TMP_Text patientNameErrorText;
 
     // Internal
     private string ffmpegPath;
@@ -58,6 +67,9 @@ public class RecordingManager : MonoBehaviour
     // Track pending async file writes so FFmpeg doesn't start early
     private int pendingWrites = 0;
 
+    // Error auto-hide
+    private Coroutine errorRoutine;
+
     void Awake()
     {
         // Bundled ffmpeg path (best for GitHub + other PCs)
@@ -65,6 +77,19 @@ public class RecordingManager : MonoBehaviour
         ffmpegPath = File.Exists(bundled) ? bundled : ffmpegExePathFallback;
 
         Debug.Log("FFmpeg path used: " + ffmpegPath);
+
+        // Hide error text by default
+        if (patientNameErrorText != null)
+            patientNameErrorText.gameObject.SetActive(false);
+
+        // Optional: auto-hide error while typing
+        if (patientNameInput != null && patientNameErrorText != null)
+        {
+            patientNameInput.onValueChanged.AddListener(_ =>
+            {
+                patientNameErrorText.gameObject.SetActive(false);
+            });
+        }
     }
 
     public void StartRecording()
@@ -77,12 +102,26 @@ public class RecordingManager : MonoBehaviour
             return;
         }
 
-        // Create session folder
+        // Require patient name (typed by doctor)
+        if (patientNameInput != null && string.IsNullOrWhiteSpace(patientNameInput.text))
+        {
+            ShowPatientNameError("Please enter patient name before recording.");
+            return;
+        }
+
+        // Hide error once we start correctly
+        HidePatientNameError();
+
+        // Root recordings folder
         string root = Path.Combine(Application.persistentDataPath, outputFolderName);
         Directory.CreateDirectory(root);
 
-        sessionFolder = Path.Combine(root, System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
-        Directory.CreateDirectory(sessionFolder);
+        // Pair folder: DoctorName-PatientName
+        string pairPath = Path.Combine(root, GetPairFolder());
+        Directory.CreateDirectory(pairPath);
+
+        // Every recording = next version folder (v001, v002, ...)
+        sessionFolder = GetNextVersionFolder(pairPath);
 
         // Prepare read texture matching RT size
         readTex = new Texture2D(recordRT.width, recordRT.height, TextureFormat.RGB24, false);
@@ -175,7 +214,7 @@ public class RecordingManager : MonoBehaviour
         int safety = 0;
         while (pendingWrites > 0 && safety < 300)
         {
-            Thread.Sleep(10);
+            System.Threading.Thread.Sleep(10);
             safety++;
         }
 
@@ -191,7 +230,6 @@ public class RecordingManager : MonoBehaviour
         string inputPattern = Path.Combine(sessionFolder, "frame_%06d.jpg");
         string wavPath = Path.Combine(sessionFolder, "audio.wav");
 
-        // IMPORTANT: -framerate is the correct input rate for image sequences
         string args;
 
         if (File.Exists(wavPath))
@@ -259,5 +297,80 @@ public class RecordingManager : MonoBehaviour
             Debug.LogError("FFmpeg failed: " + e.Message);
             Debug.LogError("Expected ffmpeg at: Assets/StreamingAssets/FFmpeg/ffmpeg.exe");
         }
+    }
+
+    // ---------- UI helpers ----------
+
+    private void ShowPatientNameError(string msg)
+    {
+        if (patientNameErrorText == null) return;
+
+        patientNameErrorText.text = msg;
+        patientNameErrorText.gameObject.SetActive(true);
+        Debug.LogError(msg);
+
+        // restart timer if already running
+        if (errorRoutine != null)
+            StopCoroutine(errorRoutine);
+
+        errorRoutine = StartCoroutine(HideErrorAfterSeconds(3f));
+    }
+
+    private IEnumerator HideErrorAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        if (patientNameErrorText != null)
+            patientNameErrorText.gameObject.SetActive(false);
+
+        errorRoutine = null;
+    }
+
+    private void HidePatientNameError()
+    {
+        if (errorRoutine != null)
+        {
+            StopCoroutine(errorRoutine);
+            errorRoutine = null;
+        }
+
+        if (patientNameErrorText != null)
+            patientNameErrorText.gameObject.SetActive(false);
+    }
+
+    // ---------- Naming helpers ----------
+
+    private static string SanitizeFilePart(string s)
+    {
+        if (string.IsNullOrWhiteSpace(s)) return "Unknown";
+        s = s.Trim();
+        foreach (char c in Path.GetInvalidFileNameChars())
+            s = s.Replace(c, '_');
+        return s;
+    }
+
+    private string GetPairFolder()
+    {
+        string doctor = (SessionData.CurrentUser != null) ? SessionData.CurrentUser.username : "UnknownDoctor";
+
+        string patient = (patientNameInput != null) ? patientNameInput.text : "";
+        if (string.IsNullOrWhiteSpace(patient))
+            patient = "WaitingForPatientName";
+
+        doctor = SanitizeFilePart(doctor);
+        patient = SanitizeFilePart(patient);
+
+        return $"{doctor}-{patient}";
+    }
+
+    private string GetNextVersionFolder(string pairPath)
+    {
+        int v = 1;
+        while (Directory.Exists(Path.Combine(pairPath, $"v{v:D3}")))
+            v++;
+
+        string versionPath = Path.Combine(pairPath, $"v{v:D3}");
+        Directory.CreateDirectory(versionPath);
+        return versionPath;
     }
 }

@@ -130,6 +130,19 @@ public class AuthManager : MonoBehaviour
                 // remember this user for the next scene
                 SessionData.CurrentUser = u;
 
+                // ✅ Save names for recording folder
+if (LoginContext.Instance != null)
+{
+    // Since this login screen has only ONE user, we save the local user in A.
+    // B will be filled later when the other person joins (doctor/patient/doctor).
+    LoginContext.Instance.SetUsers(u.username, "WaitingForOther");
+}
+else
+{
+    Debug.LogWarning("LoginContext.Instance is null (make sure LoginContext object exists in LoginScene).");
+}
+
+
                 // load your meeting room scene
                 SceneManager.LoadScene("Meeting_Room");
                 return;

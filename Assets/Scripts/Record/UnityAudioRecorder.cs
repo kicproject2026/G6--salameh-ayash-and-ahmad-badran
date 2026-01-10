@@ -1,6 +1,6 @@
 // UnityAudioRecorder.cs
-// Records Unity's mixed output (what you hear) to audio.wav.
-// Attach to the GameObject that has AudioListener (your Main Camera).
+// Records Unity mixed output to audio.wav with the CORRECT channel count.
+// Attach to the GameObject that has AudioListener (Main Camera).
 
 using System.IO;
 using UnityEngine;
@@ -10,8 +10,11 @@ public class UnityAudioRecorder : MonoBehaviour
 {
     private FileStream _stream;
     private string _path;
+
     private int _sampleRate;
-    private int _channels;
+    private int _channels;       // <-- will be detected from OnAudioFilterRead
+    private bool _gotChannels;
+
     private int _dataLength;
 
     public string CurrentWavPath => _path;
@@ -21,15 +24,18 @@ public class UnityAudioRecorder : MonoBehaviour
     {
         if (IsRecording) return;
 
+        Directory.CreateDirectory(folderPath);
+
         _sampleRate = AudioSettings.outputSampleRate;
-        _channels = 2; // stereo mix (what you hear)
+        _channels = 0;
+        _gotChannels = false;
         _dataLength = 0;
 
-        Directory.CreateDirectory(folderPath);
         _path = Path.Combine(folderPath, "audio.wav");
-
         _stream = new FileStream(_path, FileMode.Create);
-        WriteWavHeader(_stream, _sampleRate, _channels, 0);
+
+        // Write a placeholder header (we will rewrite it with the correct channels+size on StopAudio)
+        WriteWavHeader(_stream, _sampleRate, 2, 0);
 
         IsRecording = true;
         Debug.Log("Audio recording started: " + _path);
@@ -40,21 +46,30 @@ public class UnityAudioRecorder : MonoBehaviour
         if (!IsRecording) return;
         IsRecording = false;
 
-        // Fix header sizes
+        int finalChannels = (_gotChannels && _channels > 0) ? _channels : 2;
+
+        // Rewrite header with correct sizes + channel count
         _stream.Seek(0, SeekOrigin.Begin);
-        WriteWavHeader(_stream, _sampleRate, _channels, _dataLength);
+        WriteWavHeader(_stream, _sampleRate, finalChannels, _dataLength);
 
         _stream.Flush();
         _stream.Close();
         _stream = null;
 
-        Debug.Log("Audio recording stopped.");
+        Debug.Log($"Audio recording stopped. WAV: {_path} (channels={finalChannels}, sr={_sampleRate})");
     }
 
-    // Unity calls this on the audio thread with the final mixed output.
+    // Unity calls this with the final mixed output buffer.
     private void OnAudioFilterRead(float[] data, int channels)
     {
         if (!IsRecording || _stream == null) return;
+
+        // Detect real channel count from Unity (this fixes x2 speed issues)
+        if (!_gotChannels)
+        {
+            _channels = channels;
+            _gotChannels = true;
+        }
 
         // Convert float [-1..1] to 16-bit PCM
         byte[] bytes = new byte[data.Length * 2];

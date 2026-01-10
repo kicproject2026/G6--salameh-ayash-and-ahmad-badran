@@ -200,7 +200,7 @@ public class RecordingManager : MonoBehaviour
                 $"-y -framerate {fps} -i \"{inputPattern}\" " +
                 $"-i \"{wavPath}\" " +
                 "-c:v libx264 -pix_fmt yuv420p " +
-                "-c:a aac -b:a 192k -ar 48000 -ac 2 " +
+                "-c:a aac -b:a 192k " +
                 "-shortest " +
                 $"\"{outMp4}\"";
         }

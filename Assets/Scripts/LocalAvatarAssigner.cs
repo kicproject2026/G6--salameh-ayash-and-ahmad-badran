@@ -15,8 +15,30 @@ public class LocalAvatarAssigner : MonoBehaviour {
             avatarManager.avatarCreated -= OnAvatarCreated;
     }
 
-    private void OnAvatarCreated(RealtimeAvatarManager manager, RealtimeAvatar avatar, bool isLocalAvatar) {
-        if (isLocalAvatar)
-            avatarMapper.realtimeAvatar = avatar;
+    private void OnAvatarCreated(RealtimeAvatarManager manager, RealtimeAvatar avatar, bool isLocalAvatar)
+{
+    if (isLocalAvatar)
+    {
+        avatarMapper.realtimeAvatar = avatar;
+
+        // Attach display name with role
+        var tag = avatar.gameObject.AddComponent<AvatarUserTag>();
+
+        if (SessionData.CurrentUser != null)
+        {
+            string role = SessionData.CurrentUser.role;   // "Doctor" or "Patient"
+            string name = SessionData.CurrentUser.username;
+
+            if (role == "Doctor")
+                tag.displayName = "Dr:" + name;
+            else
+                tag.displayName = "Patient:" + name;
+        }
+        else
+        {
+            tag.displayName = "UnknownUser";
+        }
     }
+}
+
 }

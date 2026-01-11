@@ -15,6 +15,9 @@ public class ToggleDoctorMenu : MonoBehaviour
     [Header("Menu")]
     public GameObject menuRoot;
 
+    [Header("Audit (Task 2)")]
+    public AuditMenuToggle auditMenuToggle;   // <- assign in Inspector (or leave null to auto-find)
+
     private RealtimeView view;
     private AvatarRole role;
 
@@ -28,6 +31,10 @@ public class ToggleDoctorMenu : MonoBehaviour
     {
         view = GetComponentInParent<RealtimeView>();
         role = GetComponent<AvatarRole>();
+
+        // Auto-find audit component if not assigned
+        if (auditMenuToggle == null)
+            auditMenuToggle = GetComponent<AuditMenuToggle>();
 
         // If no action reference provided, create a runtime action bound to Left X (primaryButton).
         if (toggleAction == null)
@@ -58,7 +65,8 @@ public class ToggleDoctorMenu : MonoBehaviour
     private IEnumerator Start()
     {
         yield return new WaitForSeconds(0.5f);
-        menuRoot.transform.SetParent(transform);
+        if (menuRoot != null)
+            menuRoot.transform.SetParent(transform);
     }
 
     private IEnumerator WaitThenSubscribe()
@@ -118,20 +126,38 @@ public class ToggleDoctorMenu : MonoBehaviour
     }
 
     private void Toggle(InputAction.CallbackContext ctx)
+{
+    if (role == null || !role.isDoctor)
     {
-        if (role == null || !role.isDoctor)
-        {
-            Debug.Log("[ToggleDoctorMenu] Blocked: not a doctor");
-            return;
-        }
-
-        if (menuRoot == null)
-        {
-            Debug.LogError("[ToggleDoctorMenu] menuRoot is NULL");
-            return;
-        }
-
-        menuRoot.SetActive(!menuRoot.activeSelf);
-        Debug.Log("[ToggleDoctorMenu] Menu toggled");
+        Debug.Log("[ToggleDoctorMenu] Blocked: not a doctor");
+        return;
     }
+
+    if (menuRoot == null)
+    {
+        Debug.LogError("[ToggleDoctorMenu] menuRoot is NULL");
+        return;
+    }
+
+    // Toggle menu
+    menuRoot.SetActive(!menuRoot.activeSelf);
+    Debug.Log("[ToggleDoctorMenu] Menu toggled. Now active = " + menuRoot.activeSelf);
+
+    // Log menu state for Task 2
+    if (auditMenuToggle == null)
+    {
+        auditMenuToggle = GetComponent<AuditMenuToggle>();
+    }
+
+    if (auditMenuToggle != null)
+    {
+        auditMenuToggle.LogMenuState();
+        Debug.Log("[ToggleDoctorMenu] MenuToggle logged to audit.");
+    }
+    else
+    {
+        Debug.LogError("[ToggleDoctorMenu] AuditMenuToggle NOT FOUND on this GameObject!");
+    }
+}
+
 }

@@ -1,16 +1,16 @@
 // RecordingManager.cs
-// - Records a corner camera to JPG frames, merges with audio.wav using FFmpeg into recording.mp4
+// - Records corner camera to JPG frames, merges with audio.wav using FFmpeg into recording.mp4
 // - Prevents "sped up" issues by using -framerate and waiting pending async writes
 // - Names folders like: DoctorName-PatientName/v001, v002, v003...
-// - Doctor name comes from SessionData.CurrentUser.username (login)
-// - Patient name is typed by doctor in a TMP_InputField (patientNameInput)
-// - Shows a TMP_Text error if Start Recording is pressed with empty patient name
-// - Error auto-hides after 3 seconds
+// - Doctor name from SessionData.CurrentUser.username (login)
+// - Patient name typed by doctor in TMP_InputField
+// - Error TMP_Text if Start pressed with empty patient name (auto hides after 3 seconds)
+// - TASK 2: Writes audit logs into SAME version folder: audit.jsonl
 //
-// REQUIREMENTS:
-// - ffmpeg.exe at: Assets/StreamingAssets/FFmpeg/ffmpeg.exe (and commit it)
-// - UnityAudioRecorder attached to the AudioListener (Main Camera) and assigned here
-// - Assign patientNameInput + patientNameErrorText in Inspector (RecordingSystem -> RecordingManager)
+// CHANGES YOU ASKED:
+// - StartRecordingBlocked: meta now contains {"filename": ""} (no reason)
+// - AuditBegin meta key is now "filename" (handled in AuditLogger.Begin)
+// - who is now consistent (Dr: / Patient:) for Start/Stop/Encode logs
 
 using TMPro;
 using System.Collections;
@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -50,7 +51,7 @@ public class RecordingManager : MonoBehaviour
     [Header("Audio (recommended)")]
     public UnityAudioRecorder audioRecorder;
 
-    [Header("Naming (doctor types patient name)")]
+    [Header("Naming (doctor types filename/patient name)")]
     public TMP_InputField patientNameInput;
 
     [Header("UI Feedback")]
@@ -82,7 +83,7 @@ public class RecordingManager : MonoBehaviour
         if (patientNameErrorText != null)
             patientNameErrorText.gameObject.SetActive(false);
 
-        // Optional: auto-hide error while typing
+        // Auto-hide error while typing
         if (patientNameInput != null && patientNameErrorText != null)
         {
             patientNameInput.onValueChanged.AddListener(_ =>
@@ -102,9 +103,16 @@ public class RecordingManager : MonoBehaviour
             return;
         }
 
-        // Require patient name (typed by doctor)
+        // Require filename/patient name (typed by doctor)
         if (patientNameInput != null && string.IsNullOrWhiteSpace(patientNameInput.text))
         {
+            // ✅ CHANGED: no reason, only empty filename
+            AuditLogger.Instance?.Log(
+                "StartRecordingBlocked",
+                GetWho(),
+                new Dictionary<string, object> { { "filename", "" } }
+            );
+
             ShowPatientNameError("Please enter patient name before recording.");
             return;
         }
@@ -122,6 +130,24 @@ public class RecordingManager : MonoBehaviour
 
         // Every recording = next version folder (v001, v002, ...)
         sessionFolder = GetNextVersionFolder(pairPath);
+
+        // ---- TASK 2: Start audit log in SAME version folder ----
+        string who = GetWho();
+        string filename = GetPatientName(); // you type it
+
+        if (AuditLogger.Instance != null)
+        {
+            // ✅ AuditBegin will store meta {"filename": filename} (implemented in AuditLogger.cs)
+            AuditLogger.Instance.Begin(sessionFolder, who, filename);
+
+            AuditLogger.Instance.Log("StartRecording", who, new Dictionary<string, object> {
+                {"versionFolder", Path.GetFileName(sessionFolder)},
+                {"pairFolder", Path.GetFileName(pairPath)},
+                {"fps", fps},
+                {"resolution", $"{recordRT.width}x{recordRT.height}"},
+                {"asyncDiskWrite", asyncDiskWrite}
+            });
+        }
 
         // Prepare read texture matching RT size
         readTex = new Texture2D(recordRT.width, recordRT.height, TextureFormat.RGB24, false);
@@ -152,11 +178,23 @@ public class RecordingManager : MonoBehaviour
         if (audioRecorder != null)
             audioRecorder.StopAudio();
 
+        // ---- TASK 2: log stop ----
+        AuditLogger.Instance?.Log("StopRecording", GetWho(), new Dictionary<string, object> {
+            {"frames", frameIndex}
+        });
+
         Debug.Log("Recording stopped. Waiting for pending frame writes...");
         WaitForPendingWrites();
 
         Debug.Log("Encoding mp4...");
         EncodeToMp4();
+
+        // ---- TASK 2: end audit (after encoding attempt) ----
+        AuditLogger.Instance?.End(GetWho());
+        var analytics = FindObjectOfType<PeopleAnalyticsGenerator>();
+if (analytics != null)
+    analytics.Generate(sessionFolder);
+
     }
 
     private IEnumerator CaptureLoop()
@@ -193,11 +231,11 @@ public class RecordingManager : MonoBehaviour
             if (asyncDiskWrite)
             {
                 Interlocked.Increment(ref pendingWrites);
-                byte[] dataCopy = jpg; // capture ref for background thread
+                byte[] dataCopy = jpg;
                 Task.Run(() =>
                 {
                     try { File.WriteAllBytes(framePath, dataCopy); }
-                    catch { /* ignore */ }
+                    catch { }
                     finally { Interlocked.Decrement(ref pendingWrites); }
                 });
             }
@@ -210,11 +248,10 @@ public class RecordingManager : MonoBehaviour
 
     private void WaitForPendingWrites()
     {
-        // Wait up to ~3 seconds (usually much less)
         int safety = 0;
         while (pendingWrites > 0 && safety < 300)
         {
-            System.Threading.Thread.Sleep(10);
+            Thread.Sleep(10);
             safety++;
         }
 
@@ -269,6 +306,12 @@ public class RecordingManager : MonoBehaviour
             {
                 Debug.Log("Saved video: " + outMp4);
 
+                // ---- TASK 2: log encode success ----
+                AuditLogger.Instance?.Log("EncodeMp4Success", GetWho(), new Dictionary<string, object> {
+                    {"mp4", "recording.mp4"},
+                    {"hasAudio", File.Exists(wavPath)}
+                });
+
                 if (deleteFramesAfterEncode)
                 {
                     foreach (var f in Directory.GetFiles(sessionFolder, "frame_*.jpg"))
@@ -287,6 +330,9 @@ public class RecordingManager : MonoBehaviour
             else
             {
                 Debug.LogError("FFmpeg finished but recording.mp4 was not found.");
+                AuditLogger.Instance?.Log("EncodeMp4Failed", GetWho(), new Dictionary<string, object> {
+                    {"filename", ""} // keep it simple, no reason text if you prefer
+                });
             }
 
             if (!string.IsNullOrEmpty(stdout)) Debug.Log(stdout);
@@ -296,6 +342,10 @@ public class RecordingManager : MonoBehaviour
         {
             Debug.LogError("FFmpeg failed: " + e.Message);
             Debug.LogError("Expected ffmpeg at: Assets/StreamingAssets/FFmpeg/ffmpeg.exe");
+
+            AuditLogger.Instance?.Log("EncodeMp4Exception", GetWho(), new Dictionary<string, object> {
+                {"filename", ""} // keep it simple
+            });
         }
     }
 
@@ -309,7 +359,6 @@ public class RecordingManager : MonoBehaviour
         patientNameErrorText.gameObject.SetActive(true);
         Debug.LogError(msg);
 
-        // restart timer if already running
         if (errorRoutine != null)
             StopCoroutine(errorRoutine);
 
@@ -340,6 +389,9 @@ public class RecordingManager : MonoBehaviour
 
     // ---------- Naming helpers ----------
 
+    private string GetPatientName() =>
+        (patientNameInput != null) ? patientNameInput.text.Trim() : "";
+
     private static string SanitizeFilePart(string s)
     {
         if (string.IsNullOrWhiteSpace(s)) return "Unknown";
@@ -351,16 +403,16 @@ public class RecordingManager : MonoBehaviour
 
     private string GetPairFolder()
     {
-        string doctor = (SessionData.CurrentUser != null) ? SessionData.CurrentUser.username : "UnknownDoctor";
+        // Doctor name (without role prefix) for folder name:
+        string doctorRaw = (SessionData.CurrentUser != null) ? SessionData.CurrentUser.username : "UnknownDoctor";
+        string doctor = SanitizeFilePart(doctorRaw);
 
-        string patient = (patientNameInput != null) ? patientNameInput.text : "";
-        if (string.IsNullOrWhiteSpace(patient))
-            patient = "WaitingForPatientName";
+        string filename = GetPatientName();
+        if (string.IsNullOrWhiteSpace(filename))
+            filename = "WaitingForPatientName";
+        filename = SanitizeFilePart(filename);
 
-        doctor = SanitizeFilePart(doctor);
-        patient = SanitizeFilePart(patient);
-
-        return $"{doctor}-{patient}";
+        return $"{doctorRaw}-{filename}".Replace(doctorRaw, doctor); // keep sanitized
     }
 
     private string GetNextVersionFolder(string pairPath)
@@ -372,5 +424,13 @@ public class RecordingManager : MonoBehaviour
         string versionPath = Path.Combine(pairPath, $"v{v:D3}");
         Directory.CreateDirectory(versionPath);
         return versionPath;
+    }
+
+    private string GetWho()
+    {
+        if (SessionData.CurrentUser == null) return "UnknownUser";
+        return (SessionData.CurrentUser.role == "Doctor")
+            ? $"Dr:{SessionData.CurrentUser.username}"
+            : $"Patient:{SessionData.CurrentUser.username}";
     }
 }

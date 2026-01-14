@@ -433,4 +433,7 @@ if (analytics != null)
             ? $"Dr:{SessionData.CurrentUser.username}"
             : $"Patient:{SessionData.CurrentUser.username}";
     }
+    public bool IsRecording => isRecording;
+public string CurrentSessionFolder => sessionFolder;
+
 }

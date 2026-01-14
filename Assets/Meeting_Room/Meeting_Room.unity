@@ -3927,6 +3927,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036240345}
   m_CullTransparentMesh: 1
+--- !u!1 &1121157969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1121157972}
+  - component: {fileID: 1121157971}
+  - component: {fileID: 1121157970}
+  m_Layer: 0
+  m_Name: SharedWallState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1121157970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121157969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e77c2e1f51ac6d047815d74fcb477cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SharedWallSync
+  headerText: {fileID: 0}
+  outputText: {fileID: 613193417}
+--- !u!114 &1121157971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121157969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -363599832, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Normal.Realtime.dll::Normal.Realtime.RealtimeView
+  _realtime: {fileID: 0}
+  _sceneViewUUID: 
+  _viewUUID: 51b08eb0-ee07-4d8d-aa90-18a9425875bd
+  _sceneViewPreventOwnershipTakeover: 0
+  _sceneViewDestroyWhenLastClientLeaves: 1
+  _components:
+  - componentID: 1
+    component: {fileID: 1121157970}
+    isDeprecated: 0
+  _childViews: []
+--- !u!4 &1121157972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121157969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.88328, y: 0.4442, z: 1.23358}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1130279069
 GameObject:
   m_ObjectHideFlags: 0
@@ -5812,6 +5881,7 @@ MonoBehaviour:
   recordingsFolderName: Recordings
   maxAuditLinesToRead: 600
   maxTimelineLinesToShow: 60
+  sharedWall: {fileID: 0}
 --- !u!1 &1572441966 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1767192433, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
@@ -7437,7 +7507,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 590829814188561659, guid: d0bb4bc231e7c0e48888b250ef145ae1, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1974550937079704706, guid: d0bb4bc231e7c0e48888b250ef145ae1, type: 3}
       propertyPath: m_Name
@@ -7485,7 +7555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5081119139087408925, guid: d0bb4bc231e7c0e48888b250ef145ae1, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5081119139087408925, guid: d0bb4bc231e7c0e48888b250ef145ae1, type: 3}
       propertyPath: m_CancelAction
@@ -7849,3 +7919,4 @@ SceneRoots:
   - {fileID: 1557425212}
   - {fileID: 1905097315}
   - {fileID: 701360501}
+  - {fileID: 1121157972}

@@ -46,6 +46,8 @@ public class SessionBrowserUI : MonoBehaviour
     private string rootPath;
     private string selectedSessionFolder;   // full path
     private string selectedVersionFolder;   // full path
+    public SharedWallSync sharedWall;
+
 
     void Awake()
     {
@@ -258,7 +260,17 @@ public class SessionBrowserUI : MonoBehaviour
             sb.AppendLine("-------");
             sb.AppendLine("This log shows *who joined* and *what actions happened* during the session, in time order.");
 
-            outputText.text = sb.ToString();
+string finalText = sb.ToString();
+outputText.text = finalText;
+
+if (sharedWall != null)
+{
+    string sessionFolderName = Path.GetFileName(selectedSessionFolder);
+    string versionFolderName = Path.GetFileName(selectedVersionFolder);
+
+    sharedWall.DoctorShowAudit($"Audit: {sessionFolderName}/{versionFolderName}", finalText);
+}
+            
         }
         catch (Exception e)
         {
@@ -327,7 +339,17 @@ public class SessionBrowserUI : MonoBehaviour
                 sb.AppendLine("Not enough data to generate a clear insight yet.");
             }
 
-            outputText.text = sb.ToString();
+string finalText = sb.ToString();
+outputText.text = finalText;
+
+if (sharedWall != null)
+{
+    // Use DIFFERENT variable names (to avoid CS0136 error)
+    string sessionFolderName = Path.GetFileName(selectedSessionFolder);
+    string versionFolderName = Path.GetFileName(selectedVersionFolder);
+
+    sharedWall.DoctorShowAnalytics($"Analytics: {sessionFolderName}/{versionFolderName}", finalText);
+}
         }
         catch (Exception e)
         {

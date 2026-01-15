@@ -34,6 +34,9 @@ public class SessionBrowserUI : MonoBehaviour
     public TMP_Text outputText;         // RightPanel OutputText
     public VrVideoPlayback videoPlayback;
 
+    [Header("3D Replay")]
+    public ReplayUIHelper replayUIHelper; // <-- Assign ReplayUI object here in Inspector
+
     [Header("Buttons")]
     public Button openAuditButton;
     public Button openAnalyticsButton;
@@ -47,7 +50,6 @@ public class SessionBrowserUI : MonoBehaviour
     private string selectedSessionFolder;   // full path
     private string selectedVersionFolder;   // full path
     public SharedWallSync sharedWall;
-
 
     void Awake()
     {
@@ -130,10 +132,13 @@ public class SessionBrowserUI : MonoBehaviour
     {
         selectedVersionFolder = versionDir;
         ShowMessage($"Selected version:\n{Path.GetFileName(versionDir)}\nNow open Audit or Analytics (right).");
-    
-    if (videoPlayback != null)
-    videoPlayback.SetSelectedVersionFolder(versionDir);
 
+        if (videoPlayback != null)
+            videoPlayback.SetSelectedVersionFolder(versionDir);
+
+        // ✅ THIS IS THE IMPORTANT LINE: sets the 3D replay folder automatically
+        if (replayUIHelper != null)
+            replayUIHelper.SetSelectedVersionFolder(versionDir);
     }
 
     // -------------------------- TASK 2 (AUDIT) - Friendly --------------------------
@@ -152,20 +157,15 @@ public class SessionBrowserUI : MonoBehaviour
         try
         {
             var allLines = File.ReadAllLines(path);
-            // read only last N lines for performance
             var lines = allLines.Skip(Mathf.Max(0, allLines.Length - maxAuditLinesToRead)).ToArray();
 
-            // Build summary + timeline
             string sessionName = Path.GetFileName(selectedSessionFolder);
             string versionName = Path.GetFileName(selectedVersionFolder);
 
-            // Counters / quick insights
             int buttonClicks = 0;
             int participantsJoined = 0;
             string doctorName = "Unknown";
             string patientName = "Unknown";
-            string recordingStartTime = null;
-            string recordingStopTime = null;
             string encodeStatus = null;
 
             var timeline = new System.Collections.Generic.List<string>();
@@ -174,20 +174,19 @@ public class SessionBrowserUI : MonoBehaviour
             {
                 string type = ExtractJsonString(line, "type");
                 string who = ExtractJsonString(line, "who");
-                string time = ExtractJsonString(line, "time"); // we added it earlier
-                string button = ExtractJsonString(line, "button"); // sometimes direct, sometimes meta
+                string time = ExtractJsonString(line, "time");
+                string button = ExtractJsonString(line, "button");
                 if (string.IsNullOrEmpty(button))
                     button = ExtractJsonMetaButton(line);
 
                 if (type == "AuditBegin")
                 {
-                    // meta patient
                     string p = ExtractJsonString(line, "patient");
                     if (!string.IsNullOrEmpty(p)) patientName = p;
                 }
 
                 if (type == "AvatarCreatedLocal" && !string.IsNullOrEmpty(who))
-                    doctorName = who; // usually "Dr:Name"
+                    doctorName = who;
 
                 if (type == "AvatarCreatedRemote")
                 {
@@ -197,16 +196,10 @@ public class SessionBrowserUI : MonoBehaviour
                 }
 
                 if (type == "StartRecording")
-                {
-                    recordingStartTime = time;
                     timeline.Add(FormatTimeline(time, "▶ Recording started"));
-                }
 
                 if (type == "StopRecording")
-                {
-                    recordingStopTime = time;
                     timeline.Add(FormatTimeline(time, "⏹ Recording stopped"));
-                }
 
                 if (type == "ButtonClick")
                 {
@@ -227,7 +220,6 @@ public class SessionBrowserUI : MonoBehaviour
                 }
             }
 
-            // Keep only last N timeline lines (most readable)
             if (timeline.Count > maxTimelineLinesToShow)
                 timeline = timeline.Skip(timeline.Count - maxTimelineLinesToShow).ToList();
 
@@ -260,17 +252,15 @@ public class SessionBrowserUI : MonoBehaviour
             sb.AppendLine("-------");
             sb.AppendLine("This log shows *who joined* and *what actions happened* during the session, in time order.");
 
-string finalText = sb.ToString();
-outputText.text = finalText;
+            string finalText = sb.ToString();
+            outputText.text = finalText;
 
-if (sharedWall != null)
-{
-    string sessionFolderName = Path.GetFileName(selectedSessionFolder);
-    string versionFolderName = Path.GetFileName(selectedVersionFolder);
-
-    sharedWall.DoctorShowAudit($"Audit: {sessionFolderName}/{versionFolderName}", finalText);
-}
-            
+            if (sharedWall != null)
+            {
+                string sessionFolderName = Path.GetFileName(selectedSessionFolder);
+                string versionFolderName = Path.GetFileName(selectedVersionFolder);
+                sharedWall.DoctorShowAudit($"Audit: {sessionFolderName}/{versionFolderName}", finalText);
+            }
         }
         catch (Exception e)
         {
@@ -339,17 +329,15 @@ if (sharedWall != null)
                 sb.AppendLine("Not enough data to generate a clear insight yet.");
             }
 
-string finalText = sb.ToString();
-outputText.text = finalText;
+            string finalText = sb.ToString();
+            outputText.text = finalText;
 
-if (sharedWall != null)
-{
-    // Use DIFFERENT variable names (to avoid CS0136 error)
-    string sessionFolderName = Path.GetFileName(selectedSessionFolder);
-    string versionFolderName = Path.GetFileName(selectedVersionFolder);
-
-    sharedWall.DoctorShowAnalytics($"Analytics: {sessionFolderName}/{versionFolderName}", finalText);
-}
+            if (sharedWall != null)
+            {
+                string sessionFolderName = Path.GetFileName(selectedSessionFolder);
+                string versionFolderName = Path.GetFileName(selectedVersionFolder);
+                sharedWall.DoctorShowAnalytics($"Analytics: {sessionFolderName}/{versionFolderName}", finalText);
+            }
         }
         catch (Exception e)
         {
@@ -396,26 +384,21 @@ if (sharedWall != null)
         return int.MaxValue;
     }
 
-    // Extract "key":"value" anywhere in the line (works for time/type/who and simple fields)
     private static string ExtractJsonString(string jsonLine, string key)
     {
         if (string.IsNullOrEmpty(jsonLine)) return null;
 
-        // "key":"VALUE"
         var m = Regex.Match(jsonLine, $"\"{Regex.Escape(key)}\"\\s*:\\s*\"(.*?)\"");
         if (m.Success) return m.Groups[1].Value;
 
-        // "key":VALUE (numbers)
         m = Regex.Match(jsonLine, $"\"{Regex.Escape(key)}\"\\s*:\\s*(\\d+(?:\\.\\d+)?)");
         if (m.Success) return m.Groups[1].Value;
 
         return null;
     }
 
-    // Specifically find meta.button inside jsonl line:
     private static string ExtractJsonMetaButton(string jsonLine)
     {
-        // ... "meta":{"button":"Spawn Brain"} ...
         var m = Regex.Match(jsonLine, "\"meta\"\\s*:\\s*\\{.*?\"button\"\\s*:\\s*\"(.*?)\".*?\\}");
         if (m.Success) return m.Groups[1].Value;
         return null;

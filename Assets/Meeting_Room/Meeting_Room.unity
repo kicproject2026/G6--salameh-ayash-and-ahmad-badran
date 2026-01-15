@@ -2709,7 +2709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ReplayUIHelper
   replayPlayer: {fileID: 2072988621}
   spawnReplayPlayer: {fileID: 569220687}
-  sessionFolder: C:\Users\user\AppData\locallow\DefaultCompany\final project\Recordings\UnknownDoctor-55\v001
+  sessionFolder: 
   ghostsRoot: {fileID: 0}
 --- !u!4 &687561812
 Transform:
@@ -4684,7 +4684,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1130279073}
   - component: {fileID: 1130279070}
-  - component: {fileID: 1130279072}
   - component: {fileID: 1130279071}
   m_Layer: 0
   m_Name: CornerRecordCam
@@ -4788,14 +4787,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &1130279072
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130279069}
-  m_Enabled: 1
 --- !u!4 &1130279073
 Transform:
   m_ObjectHideFlags: 0
@@ -6566,6 +6557,7 @@ MonoBehaviour:
   listItemPrefab: {fileID: 2451262940580891806, guid: 39c38fc860963a448aa352a67672a9a9, type: 3}
   outputText: {fileID: 613193417}
   videoPlayback: {fileID: 701360498}
+  replayUIHelper: {fileID: 687561811}
   openAuditButton: {fileID: 1153775866}
   openAnalyticsButton: {fileID: 656563259}
   recordingsFolderName: Recordings

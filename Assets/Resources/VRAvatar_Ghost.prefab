@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
   prefabPath: Organs/Kidney
+  auditObjectType: Spawn Heart
   spawnPointTag: OrganSpawnKidney
 --- !u!114 &140118410544224738
 MonoBehaviour:
@@ -623,6 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
   prefabPath: Organs/Guts
+  auditObjectType: Spawn Heart
   spawnPointTag: OrganSpawnGuts
 --- !u!114 &5267829717813641228
 MonoBehaviour:
@@ -925,6 +927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
   prefabPath: Organs/Brain
+  auditObjectType: Spawn Heart
   spawnPointTag: OrganSpawnBrain
 --- !u!114 &5839879959612627572
 MonoBehaviour:
@@ -1200,7 +1203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc3e5466b27e124285ce72ed3eb6b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GhostTrackable
-  displayName: 
   head: {fileID: 4767326363065482379}
   leftHand: {fileID: 1165037877322631181}
   rightHand: {fileID: 5674614548569481248}
@@ -1219,6 +1221,8 @@ MonoBehaviour:
   head: {fileID: 4767326363065482379}
   leftHand: {fileID: 1165037877322631181}
   rightHand: {fileID: 5674614548569481248}
+  bodyRenderer: {fileID: 3325698831235410109}
+  nameText: {fileID: 5488716047857749123}
 --- !u!1 &1577045914993592271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,6 +1384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
   prefabPath: Organs/Heart
+  auditObjectType: Spawn Heart
   spawnPointTag: OrganSpawnHeart
 --- !u!114 &6873371288865422897
 MonoBehaviour:
@@ -1897,6 +1902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
   prefabPath: Organs/SimpleSkeleton
+  auditObjectType: Spawn Heart
   spawnPointTag: OrganSpawnSkeleton
 --- !u!114 &4527959966234991282
 MonoBehaviour:
@@ -3211,6 +3217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnToggleNetworked
   prefabPath: Organs/Liver
+  auditObjectType: Spawn Heart
   spawnPointTag: OrganSpawnLiver
 --- !u!114 &646763760811635623
 MonoBehaviour:

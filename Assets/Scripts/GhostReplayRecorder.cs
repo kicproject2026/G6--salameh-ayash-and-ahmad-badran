@@ -5,10 +5,9 @@ using UnityEngine;
 public class GhostReplayRecorder : MonoBehaviour
 {
     [Header("Links")]
-    public RecordingManager recordingManager;   // drag your existing RecordingManager here
+    public RecordingManager recordingManager;
 
     [Header("Settings")]
-    [Tooltip("Samples per second. 10-20 is good.")]
     public int sampleRate = 15;
 
     private StreamWriter _writer;
@@ -89,6 +88,11 @@ public class GhostReplayRecorder : MonoBehaviour
             if (tr == null) continue;
 
             Color c = tr.GetBodyColor();
+            string display = tr.GetDisplayName();
+
+            // fallback (so it never records "")
+            if (string.IsNullOrWhiteSpace(display))
+                display = tr.gameObject.name;
 
             var line = new ReplayFrame
             {
@@ -96,9 +100,11 @@ public class GhostReplayRecorder : MonoBehaviour
                 time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                 t = t,
                 id = tr.GetId(),
-                who = tr.GetDisplayName(),
 
-                // NEW: color
+                // NAME (replay will use this)
+                who = display,
+
+                // COLOR
                 bodyColor = c,
 
                 head = PoseTo(tr.head),
@@ -129,10 +135,13 @@ public class GhostReplayRecorder : MonoBehaviour
         public string type;
         public string time;
         public float t;
+
         public string id;
+
+        // NAME
         public string who;
 
-        // NEW: saved color
+        // COLOR
         public Color bodyColor;
 
         public PoseData head;

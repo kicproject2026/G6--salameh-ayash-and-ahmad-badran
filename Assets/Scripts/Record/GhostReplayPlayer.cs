@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using TMPro;
 
 public class GhostReplayPlayer : MonoBehaviour
 {
@@ -9,9 +10,7 @@ public class GhostReplayPlayer : MonoBehaviour
     public GameObject ghostPrefab;
 
     [Header("Playback")]
-    [Tooltip("1 = normal speed, 0.5 = slow, 2 = fast")]
     public float playbackSpeed = 1f;
-
     public bool loop = false;
 
     [Header("Debug")]
@@ -138,13 +137,13 @@ public class GhostReplayPlayer : MonoBehaviour
                 if (rig != null)
                     _ghosts[f.id] = rig;
 
-                // Apply color immediately on spawn (first frame we see for this avatar)
                 ApplyColor(rig, f.bodyColor);
+                ApplyName(rig, f.who);
             }
             else
             {
-                // Optional: keep applying in case color changes mid-session
                 ApplyColor(rig, f.bodyColor);
+                ApplyName(rig, f.who);
             }
 
             if (rig != null)
@@ -171,9 +170,11 @@ public class GhostReplayPlayer : MonoBehaviour
             return null;
         }
 
-        // Auto-find renderer if not assigned on the prefab
         if (rig.bodyRenderer == null)
             rig.bodyRenderer = obj.GetComponentInChildren<Renderer>(true);
+
+        if (rig.nameText == null)
+            rig.nameText = obj.GetComponentInChildren<TMP_Text>(true);
 
         return rig;
     }
@@ -197,14 +198,21 @@ public class GhostReplayPlayer : MonoBehaviour
 
     private static void ApplyColor(GhostRig rig, Color c)
     {
-        if (rig == null) return;
-        if (rig.bodyRenderer == null) return;
+        if (rig == null || rig.bodyRenderer == null) return;
 
-        // If color was never recorded, keep prefab’s default
+        // if it wasn't recorded, ignore
         if (c.a == 0f && c.r == 0f && c.g == 0f && c.b == 0f)
             return;
 
         rig.bodyRenderer.material.color = c;
+    }
+
+    private static void ApplyName(GhostRig rig, string who)
+    {
+        if (rig == null || rig.nameText == null) return;
+        if (string.IsNullOrWhiteSpace(who)) return;
+
+        rig.nameText.text = who;
     }
 
     [Serializable]
@@ -217,7 +225,6 @@ public class GhostReplayPlayer : MonoBehaviour
         public string id;
         public string who;
 
-        // NEW: color stored by recorder
         public Color bodyColor;
 
         public PoseData head;

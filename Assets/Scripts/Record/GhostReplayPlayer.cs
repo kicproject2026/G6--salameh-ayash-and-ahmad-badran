@@ -17,22 +17,14 @@ public class GhostReplayPlayer : MonoBehaviour
     [Header("Debug")]
     public bool logLoadedInfo = true;
 
-    // Loaded frames (sorted by time)
     private List<ReplayFrame> _frames = new List<ReplayFrame>();
-
-    // Ghosts by avatar id
     private Dictionary<string, GhostRig> _ghosts = new Dictionary<string, GhostRig>();
 
     private bool _playing = false;
     private float _playT = 0f;
     private float _maxT = 0f;
-
-    // For faster playback (we advance through frames instead of scanning from start)
     private int _nextFrameIndex = 0;
 
-    // -------- Public API --------
-
-    // Call this with the v001 folder path (same folder that contains replay.jsonl)
     public void LoadFromSessionFolder(string sessionFolder)
     {
         string path = Path.Combine(sessionFolder, "replay.jsonl");
@@ -53,8 +45,6 @@ public class GhostReplayPlayer : MonoBehaviour
         foreach (string line in File.ReadLines(replayJsonlPath))
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
-
-            // Only parse frame lines
             if (!line.Contains("\"type\":\"Frame\"")) continue;
 
             try
@@ -63,17 +53,11 @@ public class GhostReplayPlayer : MonoBehaviour
                 if (f != null && !string.IsNullOrEmpty(f.id))
                     _frames.Add(f);
             }
-            catch
-            {
-                // ignore bad lines
-            }
+            catch { }
         }
 
         _frames.Sort((a, b) => a.t.CompareTo(b.t));
-
-        _maxT = 0f;
-        if (_frames.Count > 0)
-            _maxT = _frames[_frames.Count - 1].t;
+        _maxT = (_frames.Count > 0) ? _frames[_frames.Count - 1].t : 0f;
 
         if (logLoadedInfo)
             Debug.Log($"[GhostReplayPlayer] Loaded {_frames.Count} frames, duration ~ {_maxT:0.00}s");
@@ -98,26 +82,20 @@ public class GhostReplayPlayer : MonoBehaviour
         _playing = true;
     }
 
-    public void Pause()
-    {
-        _playing = false;
-    }
+    public void Pause() => _playing = false;
 
     public void Stop()
-{
-    _playing = false;
-    ResetPlayback();
-    CleanupGhosts();      // <-- ADD THIS LINE (this actually destroys the ghost objects)
-}
-
+    {
+        _playing = false;
+        ResetPlayback();
+        CleanupGhosts();
+    }
 
     public void LoadAndPlaySessionFolder(string sessionFolder)
     {
         LoadFromSessionFolder(sessionFolder);
         Play();
     }
-
-    // -------- Unity Loop --------
 
     private void Update()
     {
@@ -142,8 +120,6 @@ public class GhostReplayPlayer : MonoBehaviour
         ApplyFramesUpToTime(_playT);
     }
 
-    // -------- Internal --------
-
     private void ResetPlayback()
     {
         _playT = 0f;
@@ -152,7 +128,6 @@ public class GhostReplayPlayer : MonoBehaviour
 
     private void ApplyFramesUpToTime(float t)
     {
-        // Move through frames in order and apply all frames <= current time
         while (_nextFrameIndex < _frames.Count && _frames[_nextFrameIndex].t <= t)
         {
             ReplayFrame f = _frames[_nextFrameIndex];
@@ -162,6 +137,14 @@ public class GhostReplayPlayer : MonoBehaviour
                 rig = SpawnGhost(f);
                 if (rig != null)
                     _ghosts[f.id] = rig;
+
+                // Apply color immediately on spawn (first frame we see for this avatar)
+                ApplyColor(rig, f.bodyColor);
+            }
+            else
+            {
+                // Optional: keep applying in case color changes mid-session
+                ApplyColor(rig, f.bodyColor);
             }
 
             if (rig != null)
@@ -188,8 +171,10 @@ public class GhostReplayPlayer : MonoBehaviour
             return null;
         }
 
-        // Optional: if you want ghosts to start invisible until first pose is applied,
-        // you can set obj.SetActive(true) later. For now keep active.
+        // Auto-find renderer if not assigned on the prefab
+        if (rig.bodyRenderer == null)
+            rig.bodyRenderer = obj.GetComponentInChildren<Renderer>(true);
+
         return rig;
     }
 
@@ -206,12 +191,21 @@ public class GhostReplayPlayer : MonoBehaviour
     private static void ApplyPose(Transform target, PoseData p)
     {
         if (target == null) return;
-
         target.position = new Vector3(p.px, p.py, p.pz);
         target.rotation = new Quaternion(p.rx, p.ry, p.rz, p.rw);
     }
 
-    // -------- Data Models (must match recorder JSON) --------
+    private static void ApplyColor(GhostRig rig, Color c)
+    {
+        if (rig == null) return;
+        if (rig.bodyRenderer == null) return;
+
+        // If color was never recorded, keep prefab’s default
+        if (c.a == 0f && c.r == 0f && c.g == 0f && c.b == 0f)
+            return;
+
+        rig.bodyRenderer.material.color = c;
+    }
 
     [Serializable]
     public class ReplayFrame
@@ -222,6 +216,9 @@ public class GhostReplayPlayer : MonoBehaviour
 
         public string id;
         public string who;
+
+        // NEW: color stored by recorder
+        public Color bodyColor;
 
         public PoseData head;
         public PoseData left;

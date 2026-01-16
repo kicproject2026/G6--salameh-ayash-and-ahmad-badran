@@ -21,7 +21,6 @@ public class GhostReplayRecorder : MonoBehaviour
     {
         if (!_active) return;
 
-        // sample using unscaled time
         float now = Time.unscaledTime;
         if (now < _nextSampleTime) return;
         _nextSampleTime = now + (1f / Mathf.Max(1, sampleRate));
@@ -44,7 +43,7 @@ public class GhostReplayRecorder : MonoBehaviour
 
         _filePath = Path.Combine(folder, "replay.jsonl");
 
-        _writer = new StreamWriter(_filePath, false); // overwrite per version folder
+        _writer = new StreamWriter(_filePath, false);
         _writer.AutoFlush = true;
 
         _t0 = Time.unscaledTime;
@@ -53,7 +52,6 @@ public class GhostReplayRecorder : MonoBehaviour
 
         Debug.Log("[GhostReplayRecorder] Started: " + _filePath);
 
-        // header line (optional)
         _writer.WriteLine(JsonUtility.ToJson(new ReplayHeader
         {
             type = "ReplayBegin",
@@ -82,7 +80,6 @@ public class GhostReplayRecorder : MonoBehaviour
 
     private void WriteSample(float now)
     {
-        // record all avatars currently in scene
         var trackables = FindObjectsOfType<GhostTrackable>(false);
         float t = now - _t0;
 
@@ -91,6 +88,8 @@ public class GhostReplayRecorder : MonoBehaviour
             var tr = trackables[i];
             if (tr == null) continue;
 
+            Color c = tr.GetBodyColor();
+
             var line = new ReplayFrame
             {
                 type = "Frame",
@@ -98,6 +97,10 @@ public class GhostReplayRecorder : MonoBehaviour
                 t = t,
                 id = tr.GetId(),
                 who = tr.GetDisplayName(),
+
+                // NEW: color
+                bodyColor = c,
+
                 head = PoseTo(tr.head),
                 left = PoseTo(tr.leftHand),
                 right = PoseTo(tr.rightHand)
@@ -128,6 +131,10 @@ public class GhostReplayRecorder : MonoBehaviour
         public float t;
         public string id;
         public string who;
+
+        // NEW: saved color
+        public Color bodyColor;
+
         public PoseData head;
         public PoseData left;
         public PoseData right;

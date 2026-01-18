@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Normal.Realtime;
 
 public class SpawnReplayPlayer : MonoBehaviour
 {
@@ -12,8 +14,7 @@ public class SpawnReplayPlayer : MonoBehaviour
     private float _t = 0f;
     private bool _playing = false;
 
-    private readonly System.Collections.Generic.List<GameObject> _spawned =
-        new System.Collections.Generic.List<GameObject>();
+    private readonly List<GameObject> _spawned = new List<GameObject>();
 
     public void LoadFromSessionFolder(string sessionFolder)
     {
@@ -30,7 +31,7 @@ public class SpawnReplayPlayer : MonoBehaviour
         }
 
         var lines = File.ReadAllLines(auditJsonlPath);
-        var temp = new System.Collections.Generic.List<SpawnEvent>();
+        var temp = new List<SpawnEvent>();
 
         foreach (var line in lines)
         {
@@ -66,6 +67,7 @@ public class SpawnReplayPlayer : MonoBehaviour
 
         for (int i = 0; i < _spawned.Count; i++)
             if (_spawned[i] != null) Destroy(_spawned[i]);
+
         _spawned.Clear();
     }
 
@@ -97,10 +99,34 @@ public class SpawnReplayPlayer : MonoBehaviour
         var go = Instantiate(prefab, pos, rot);
         go.name = "Replay_" + (string.IsNullOrWhiteSpace(e.meta.objectType) ? e.meta.prefabPath : e.meta.objectType);
 
+        StripNormcore(go);
+
         if (spawnedRoot != null)
             go.transform.SetParent(spawnedRoot, true);
 
         _spawned.Add(go);
+    }
+
+    // Remove Normcore components in safe order:
+    // RealtimeTransform depends on RealtimeView.
+    private void StripNormcore(GameObject root)
+    {
+        if (root == null) return;
+
+        // 1) Remove RealtimeTransform first
+        var realtimeTransforms = root.GetComponentsInChildren<RealtimeTransform>(true);
+        for (int i = 0; i < realtimeTransforms.Length; i++)
+            if (realtimeTransforms[i] != null) Destroy(realtimeTransforms[i]);
+
+        // 2) Remove any other RealtimeComponent
+        var realtimeComponents = root.GetComponentsInChildren<RealtimeComponent>(true);
+        for (int i = 0; i < realtimeComponents.Length; i++)
+            if (realtimeComponents[i] != null) Destroy(realtimeComponents[i]);
+
+        // 3) Now remove RealtimeView
+        var realtimeViews = root.GetComponentsInChildren<RealtimeView>(true);
+        for (int i = 0; i < realtimeViews.Length; i++)
+            if (realtimeViews[i] != null) Destroy(realtimeViews[i]);
     }
 
     [Serializable]

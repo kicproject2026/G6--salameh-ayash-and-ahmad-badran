@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 7136881964310239006}
   - component: {fileID: 7733948842117733599}
   - component: {fileID: 7419199120452591130}
-  - component: {fileID: 3948226593375013083}
   - component: {fileID: 754079019171419135}
   - component: {fileID: 6634237492206733226}
   - component: {fileID: 3220502545118429417}
@@ -327,22 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2f8509c066fc314d9e6a606926373c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ApplyLoginRoleToAvatar
---- !u!114 &3948226593375013083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418494279512765053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3a57f46a1b112d498c61a8c908e7e38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToggleDoctorMenu
-  toggleAction: {fileID: 0}
-  enableKeyboardFallback: 1
-  menuRoot: {fileID: 0}
-  auditMenuToggle: {fileID: 0}
 --- !u!114 &754079019171419135
 MonoBehaviour:
   m_ObjectHideFlags: 0

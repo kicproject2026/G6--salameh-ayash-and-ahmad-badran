@@ -1,52 +1,35 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Normal.Realtime;
 using System.Collections;
 
 public class ToggleDoctorMenu : MonoBehaviour
 {
-    [Header("Input (optional)")]
-    [Tooltip("Optional: assign an InputActionReference. If left empty, this script will create one bound to LeftHand primaryButton (X).")]
+    [Header("Input")]
     public InputActionReference toggleAction;
-
-    [Tooltip("Editor/testing fallback.")]
     public bool enableKeyboardFallback = true;
 
     [Header("Menu")]
-    public GameObject menuRoot;
+    public GameObject menuRoot; // Assign the Canvas or Panel here
 
-    [Header("Audit (Task 2)")]
-    public AuditMenuToggle auditMenuToggle;   // <- assign in Inspector (or leave null to auto-find)
+    [Header("Audit")]
+    public AuditMenuToggle auditMenuToggle;
 
-    private RealtimeView view;
-    private AvatarRole role;
-
-    private InputAction _runtimeAction; // used if toggleAction is not assigned
-
+    private InputAction _runtimeAction;
     private InputAction ActionToUse => (toggleAction != null && toggleAction.action != null)
         ? toggleAction.action
         : _runtimeAction;
 
     private void Awake()
     {
-        view = GetComponentInParent<RealtimeView>();
-        role = GetComponent<AvatarRole>();
-
-        // Auto-find audit component if not assigned
+        // Auto-find audit if missing
         if (auditMenuToggle == null)
             auditMenuToggle = GetComponent<AuditMenuToggle>();
 
-        // If no action reference provided, create a runtime action bound to Left X (primaryButton).
+        // Create the X button binding if no reference is provided
         if (toggleAction == null)
         {
             _runtimeAction = new InputAction("ToggleMenu", InputActionType.Button);
-
-            // Works for OpenXR / XR hands generally (Left primary = X on Oculus).
-            _runtimeAction.AddBinding("<XRController>{LeftHand}/primaryButton");
-
-            // Extra explicit Oculus binding (harmless if layout isn't present).
-            _runtimeAction.AddBinding("<OculusTouchController>{LeftHand}/primaryButton");
-
+            _runtimeAction.AddBinding("<XRController>{LeftHand}/primaryButton"); // X Button
             if (enableKeyboardFallback)
                 _runtimeAction.AddBinding("<Keyboard>/m");
         }
@@ -54,68 +37,15 @@ public class ToggleDoctorMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(WaitThenSubscribe());
+        var action = ActionToUse;
+        if (action != null)
+        {
+            action.Enable();
+            action.performed += Toggle;
+        }
     }
 
     private void OnDisable()
-    {
-        Unsubscribe();
-    }
-
-    private IEnumerator Start()
-    {
-        yield return new WaitForSeconds(0.5f);
-        if (menuRoot != null)
-            menuRoot.transform.SetParent(transform);
-    }
-
-    private IEnumerator WaitThenSubscribe()
-    {
-        // Wait a few frames until Normcore finishes setting up the RealtimeView internally
-        for (int i = 0; i < 60; i++)
-        {
-            if (IsOwnedLocallySafe())
-                break;
-
-            // If not owned locally, stop (this is a remote avatar)
-            if (IsRemoteSafe())
-                yield break;
-
-            yield return null;
-        }
-
-        // If after waiting it's still not safe/owned, just stop.
-        if (!IsOwnedLocallySafe())
-            yield break;
-
-        var action = ActionToUse;
-        if (action == null)
-        {
-            Debug.LogError("[ToggleDoctorMenu] No InputAction available. Assign toggleAction or allow runtime action creation.");
-            yield break;
-        }
-
-        action.Enable();
-        action.performed += Toggle;
-
-        Debug.Log("[ToggleDoctorMenu] Subscribed: LeftHand primaryButton (X) toggles menuRoot");
-    }
-
-    private bool IsOwnedLocallySafe()
-    {
-        if (view == null) return true; // if no view, assume local (single player)
-        try { return view.isOwnedLocallyInHierarchy; }
-        catch { return false; } // model not ready yet
-    }
-
-    private bool IsRemoteSafe()
-    {
-        if (view == null) return false;
-        try { return !view.isOwnedLocallyInHierarchy; }
-        catch { return false; }
-    }
-
-    private void Unsubscribe()
     {
         var action = ActionToUse;
         if (action != null)
@@ -126,38 +56,25 @@ public class ToggleDoctorMenu : MonoBehaviour
     }
 
     private void Toggle(InputAction.CallbackContext ctx)
-{
-    if (role == null || !role.isDoctor)
     {
-        Debug.Log("[ToggleDoctorMenu] Blocked: not a doctor");
-        return;
-    }
+        // 1. Role Check: Only the local user with the "Doctor" role can proceed
+        if (SessionData.CurrentUser == null || 
+            !SessionData.CurrentUser.role.Trim().Equals("Doctor", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
 
-    if (menuRoot == null)
-    {
-        Debug.LogError("[ToggleDoctorMenu] menuRoot is NULL");
-        return;
-    }
+        if (menuRoot == null) return;
 
-    // Toggle menu
-    menuRoot.SetActive(!menuRoot.activeSelf);
-    Debug.Log("[ToggleDoctorMenu] Menu toggled. Now active = " + menuRoot.activeSelf);
+        // 2. Local Activation: This only happens on the Doctor's screen
+        menuRoot.SetActive(!menuRoot.activeSelf);
+        Debug.Log("[ToggleDoctorMenu] Menu toggled. Now active = " + menuRoot.activeSelf);
 
-    // Log menu state for Task 2
-    if (auditMenuToggle == null)
-    {
-        auditMenuToggle = GetComponent<AuditMenuToggle>();
-    }
-
-    if (auditMenuToggle != null)
-    {
-        auditMenuToggle.LogMenuState();
-        Debug.Log("[ToggleDoctorMenu] MenuToggle logged to audit.");
-    }
-    else
-    {
-        Debug.LogError("[ToggleDoctorMenu] AuditMenuToggle NOT FOUND on this GameObject!");
+        // 3. Audit Logging
+        if (auditMenuToggle != null)
+        {
+            auditMenuToggle.LogMenuState();
+        }
     }
 }
 
-}

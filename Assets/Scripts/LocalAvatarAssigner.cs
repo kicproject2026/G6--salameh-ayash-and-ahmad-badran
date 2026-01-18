@@ -2,7 +2,6 @@ using UnityEngine;
 using Normal.Realtime;
 
 public class LocalAvatarAssigner : MonoBehaviour {
-    public XRAvatarMapper avatarMapper;
     public RealtimeAvatarManager avatarManager;
 
     void OnEnable() {
@@ -19,7 +18,7 @@ public class LocalAvatarAssigner : MonoBehaviour {
 {
     if (isLocalAvatar)
     {
-        avatarMapper.realtimeAvatar = avatar;
+        if (avatar == null || avatar.gameObject == null) return;
 
         // Attach display name with role
         var tag = avatar.gameObject.AddComponent<AvatarUserTag>();

@@ -107,9 +107,10 @@ public class GhostReplayRecorder : MonoBehaviour
                 // COLOR
                 bodyColor = c,
 
-                head = PoseTo(tr.head),
-                left = PoseTo(tr.leftHand),
-                right = PoseTo(tr.rightHand)
+                head = LocalPoseTo(tr.head, tr.transform),
+                left = LocalPoseTo(tr.leftHand, tr.transform),
+                right = LocalPoseTo(tr.rightHand, tr.transform),
+                root = PoseTo(tr.transform)
             };
 
             _writer.WriteLine(JsonUtility.ToJson(line));
@@ -123,6 +124,21 @@ public class GhostReplayRecorder : MonoBehaviour
         {
             px = t.position.x, py = t.position.y, pz = t.position.z,
             rx = t.rotation.x, ry = t.rotation.y, rz = t.rotation.z, rw = t.rotation.w
+        };
+    }
+
+    private static PoseData LocalPoseTo(Transform child, Transform root)
+    {
+        if (child == null || root == null) return PoseData.Empty();
+        
+        // Accurate local pose relative to root (even if deep in hierarchy)
+        Vector3 localPos = root.InverseTransformPoint(child.position);
+        Quaternion localRot = Quaternion.Inverse(root.rotation) * child.rotation;
+
+        return new PoseData
+        {
+            px = localPos.x, py = localPos.y, pz = localPos.z,
+            rx = localRot.x, ry = localRot.y, rz = localRot.z, rw = localRot.w
         };
     }
 
@@ -147,6 +163,7 @@ public class GhostReplayRecorder : MonoBehaviour
         public PoseData head;
         public PoseData left;
         public PoseData right;
+        public PoseData root;
     }
 
     [Serializable]

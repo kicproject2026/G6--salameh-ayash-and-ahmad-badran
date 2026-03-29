@@ -148,9 +148,10 @@ public class GhostReplayPlayer : MonoBehaviour
 
             if (rig != null)
             {
-                ApplyPose(rig.head, f.head);
-                ApplyPose(rig.leftHand, f.left);
-                ApplyPose(rig.rightHand, f.right);
+                ApplyLocalPose(rig.head, f.head);
+                ApplyLocalPose(rig.leftHand, f.left);
+                ApplyLocalPose(rig.rightHand, f.right);
+                ApplyPose(rig.transform, f.root);
             }
 
             _nextFrameIndex++;
@@ -196,6 +197,13 @@ public class GhostReplayPlayer : MonoBehaviour
         target.rotation = new Quaternion(p.rx, p.ry, p.rz, p.rw);
     }
 
+    private static void ApplyLocalPose(Transform target, PoseData p)
+    {
+        if (target == null) return;
+        target.localPosition = new Vector3(p.px, p.py, p.pz);
+        target.localRotation = new Quaternion(p.rx, p.ry, p.rz, p.rw);
+    }
+
     private static void ApplyColor(GhostRig rig, Color c)
     {
         if (rig == null || rig.bodyRenderer == null) return;
@@ -230,6 +238,7 @@ public class GhostReplayPlayer : MonoBehaviour
         public PoseData head;
         public PoseData left;
         public PoseData right;
+        public PoseData root;
     }
 
     [Serializable]

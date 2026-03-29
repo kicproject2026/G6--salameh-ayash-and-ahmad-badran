@@ -8,9 +8,16 @@ public class GhostRig : MonoBehaviour
     public Transform leftHand;
     public Transform rightHand;
 
+    [Header("Visual Rig")]
+    public Transform body;
+    public Transform leftLeg;
+    public Transform rightLeg;
+
+
     [Header("Optional visuals")]
-    public Renderer bodyRenderer;  // the ghost body renderer (Sphere or Body mesh)
-    public TMP_Text nameText;      // the ghost NameText (TMP)
+    public Renderer bodyRenderer;
+    public TMP_Text nameText;
+
 
     public void ApplyColor(Color c)
     {

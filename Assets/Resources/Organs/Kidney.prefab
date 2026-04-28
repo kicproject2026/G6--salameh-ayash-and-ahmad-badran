@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 7071564613534728749}
   - component: {fileID: 1773205312776036936}
   - component: {fileID: 3960179343415851640}
+  - component: {fileID: 3695831969634617836}
   m_Layer: 0
   m_Name: Kidney
   m_TagString: Untagged
@@ -351,6 +352,18 @@ MonoBehaviour:
   triggerThreshold: 0.2
   debugLogs: 0
   debugTriggerValues: 0
+--- !u!114 &3695831969634617836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097971977002421820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9b10ee4177e3c44a1afd5be7d1e9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OrganTrackable
 --- !u!1 &4741453588375726622
 GameObject:
   m_ObjectHideFlags: 0

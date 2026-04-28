@@ -35,6 +35,12 @@ public class SpawnToggleNetworked : MonoBehaviour
             // Networked spawn
             instance = Realtime.Instantiate(prefabPath, spawnPoint.position, spawnPoint.rotation);
 
+            // Auto-add OrganTrackable if not present
+            if (instance != null && instance.GetComponent<OrganTrackable>() == null)
+            {
+                instance.AddComponent<OrganTrackable>();
+            }
+
             // NEW: log spawn for replay
             if (instance != null && AuditLogger.Instance != null)
             {

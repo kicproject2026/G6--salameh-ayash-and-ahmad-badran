@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 5977087741897284507}
   - component: {fileID: 4093616674994587700}
   - component: {fileID: 725378135226003592}
+  - component: {fileID: 4305509516207269468}
   m_Layer: 0
   m_Name: Liver
   m_TagString: Untagged
@@ -516,6 +517,18 @@ MonoBehaviour:
   triggerThreshold: 0.2
   debugLogs: 0
   debugTriggerValues: 0
+--- !u!114 &4305509516207269468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6729269491451537535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9b10ee4177e3c44a1afd5be7d1e9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OrganTrackable
 --- !u!1 &6801125384258530000
 GameObject:
   m_ObjectHideFlags: 0

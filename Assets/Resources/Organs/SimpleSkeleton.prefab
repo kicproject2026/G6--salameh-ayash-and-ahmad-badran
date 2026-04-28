@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 6309443631440533870}
   - component: {fileID: 8395210194874935475}
   - component: {fileID: 7118871576593546405}
+  - component: {fileID: -6794471921658675850}
   m_Layer: 0
   m_Name: SimpleSkeleton
   m_TagString: Untagged
@@ -652,6 +653,18 @@ MonoBehaviour:
   triggerThreshold: 0.2
   debugLogs: 0
   debugTriggerValues: 0
+--- !u!114 &-6794471921658675850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326438423853144707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9b10ee4177e3c44a1afd5be7d1e9c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OrganTrackable
 --- !u!1 &1396915860559951738
 GameObject:
   m_ObjectHideFlags: 0

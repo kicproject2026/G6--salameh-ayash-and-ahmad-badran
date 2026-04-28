@@ -150,7 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd4f7f441b7ff0f4f8255443c675f256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalAvatarAssigner
-  avatarManager: {fileID: 77665093}
+  doctorAvatarPrefab: {fileID: 1418494279512765053, guid: 974c3e398f9803a48b8338251588ec93, type: 3}
+  patientAvatarPrefab: {fileID: 1418494279512765053, guid: 938ceec0151bc574189ecfa2a82b4796, type: 3}
 --- !u!114 &77665093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1077,6 +1078,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 355949166}
   m_CullTransparentMesh: 1
+--- !u!1 &366449175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 366449177}
+  - component: {fileID: 366449176}
+  m_Layer: 0
+  m_Name: RoomUserManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &366449176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366449175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c8c7c39b4595e41b5b0259d495a76d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomUserManager
+--- !u!4 &366449177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366449175}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.4415, y: -0.14223, z: -2.37979}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &392957369
 GameObject:
   m_ObjectHideFlags: 0
@@ -7924,7 +7969,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9fc0e77f2870f4c9441cacc75014a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GhostReplayPlayer
-  ghostPrefab: {fileID: 1418494279512765053, guid: 4a2963453ba954e4bacc5c2ea2810f1d, type: 3}
+  doctorGhostPrefab: {fileID: 1418494279512765053, guid: 0fac55b22fc3b624ea1e075083e7997a, type: 3}
+  patientGhostPrefab: {fileID: 1418494279512765053, guid: e64cfdcb21b263740b87dd701aad1ad5, type: 3}
+  heartPrefab: {fileID: 1559699167341282591, guid: bda35fe391752ed499d80bba115112d3, type: 3}
+  brainPrefab: {fileID: 4637562118685321190, guid: 33ea5f8db8365d4489bd63a937222b60, type: 3}
+  liverPrefab: {fileID: 6729269491451537535, guid: 8d98ceeb947010d469beccbd7bf888ec, type: 3}
+  kidneyPrefab: {fileID: 1097971977002421820, guid: 2cd40d917249d4341a4b0a7cff760e6f, type: 3}
+  gutsPrefab: {fileID: 8378275913243895334, guid: 11f63a194010b2341aef5144b044219d, type: 3}
+  skeletonPrefab: {fileID: 1326438423853144707, guid: 75c1a368c54c1764a99d984582e66531, type: 3}
   playbackSpeed: 1
   loop: 0
   logLoadedInfo: 1
@@ -11130,3 +11182,4 @@ SceneRoots:
   - {fileID: 1055992894}
   - {fileID: 1626627018}
   - {fileID: 2136703142}
+  - {fileID: 366449177}

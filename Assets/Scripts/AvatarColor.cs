@@ -4,7 +4,7 @@ using Normal.Realtime;
 
 public class AvatarColor : RealtimeComponent<AvatarColorModel> {
     [Header("Visual References")]
-    public Renderer bodyRenderer;   // body mesh
+    //public Renderer bodyRenderer;   // body mesh
     public TMP_Text nameText;       // text above head
 
     protected override void OnRealtimeModelReplaced(AvatarColorModel previousModel, AvatarColorModel currentModel) {
@@ -53,8 +53,9 @@ public class AvatarColor : RealtimeComponent<AvatarColorModel> {
     }
 
     private void ApplyBodyColor(Color color) {
-        if (bodyRenderer != null)
+        /*if (bodyRenderer != null)
             bodyRenderer.material.color = color;
+        */
     }
 
     private void ApplyDisplayName(string displayName) {

@@ -57,12 +57,13 @@ public class NormcoreAuditHook : MonoBehaviour
     private void OnAvatarCreated(RealtimeAvatarManager manager, RealtimeAvatar avatar, bool isLocalAvatar)
 {
     string who = "UnknownUser";
+    string role = "Patient";
 
     if (isLocalAvatar)
     {
         if (SessionData.CurrentUser != null)
         {
-            string role = SessionData.CurrentUser.role;   // "Doctor" or "Patient"
+            role = SessionData.CurrentUser.role;   // "Doctor" or "Patient"
             string name = SessionData.CurrentUser.username;
 
             who = (role == "Doctor") ? $"Dr:{name}" : $"Patient:{name}";
@@ -89,17 +90,38 @@ public class NormcoreAuditHook : MonoBehaviour
                 // Normalize format to exactly what you want in the audit file:
                 // "Dr:Name" or "Patient:Name"
                 if (lower.StartsWith("dr."))
+                {
                     who = "Dr:" + s.Substring(3).Trim();
+                    role = "Doctor";
+                }
                 else if (lower.StartsWith("dr:"))
+                {
                     who = "Dr:" + s.Substring(3).Trim();
+                    role = "Doctor";
+                }
                 else if (lower.StartsWith("patient."))
+                {
                     who = "Patient:" + s.Substring(8).Trim();
+                    role = "Patient";
+                }
                 else if (lower.StartsWith("patient:"))
+                {
                     who = "Patient:" + s.Substring(8).Trim();
+                    role = "Patient";
+                }
 
                 break;
             }
         }
+
+        // Add AvatarUserTag to remote avatar for GhostTrackable to work
+        var remoteTag = avatar.gameObject.GetComponent<AvatarUserTag>();
+        if (remoteTag == null)
+        {
+            remoteTag = avatar.gameObject.AddComponent<AvatarUserTag>();
+        }
+        remoteTag.displayName = who;
+        remoteTag.role = role;
     }
 
     AuditLogger.Instance?.Log(

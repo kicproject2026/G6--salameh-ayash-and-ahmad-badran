@@ -79,13 +79,14 @@ public class SpawnReplayPlayer : MonoBehaviour
 
         while (_nextIndex < _events.Length && _events[_nextIndex].t <= _t)
         {
-            SpawnNow(_events[_nextIndex]);
+            //SpawnNow(_events[_nextIndex]);
             _nextIndex++;
         }
     }
 
     private void SpawnNow(SpawnEvent e)
     {
+
         var prefab = Resources.Load<GameObject>(e.meta.prefabPath);
         if (prefab == null)
         {

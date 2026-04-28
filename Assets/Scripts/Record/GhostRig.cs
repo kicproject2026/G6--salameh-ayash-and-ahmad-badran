@@ -17,6 +17,7 @@ public class GhostRig : MonoBehaviour
     [Header("Optional visuals")]
     public Renderer bodyRenderer;
     public TMP_Text nameText;
+    public Animator animator;
 
 
     public void ApplyColor(Color c)

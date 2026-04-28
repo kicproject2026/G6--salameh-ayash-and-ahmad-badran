@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -80,7 +81,32 @@ public class GhostReplayRecorder : MonoBehaviour
     private void WriteSample(float now)
     {
         var trackables = FindObjectsOfType<GhostTrackable>(false);
+        var organs = FindObjectsOfType<OrganTrackable>(false);
         float t = now - _t0;
+
+        // Build organ data list
+        List<OrganData> organDataList = new List<OrganData>();
+        for (int o = 0; o < organs.Length; o++)
+        {
+            var org = organs[o];
+            if (org == null) continue;
+
+            organDataList.Add(new OrganData
+            {
+                id = org.GetId(),
+                organType = org.GetOrganType(),
+                px = org.transform.position.x,
+                py = org.transform.position.y,
+                pz = org.transform.position.z,
+                rx = org.transform.rotation.x,
+                ry = org.transform.rotation.y,
+                rz = org.transform.rotation.z,
+                rw = org.transform.rotation.w,
+                sx = org.transform.localScale.x,
+                sy = org.transform.localScale.y,
+                sz = org.transform.localScale.z
+            });
+        }
 
         for (int i = 0; i < trackables.Length; i++)
         {
@@ -94,6 +120,11 @@ public class GhostReplayRecorder : MonoBehaviour
             if (string.IsNullOrWhiteSpace(display))
                 display = tr.gameObject.name;
 
+            string role = tr.GetRole();
+
+            // Get movement info
+            bool isWalking = tr.GetIsWalking();
+
             var line = new ReplayFrame
             {
                 type = "Frame",
@@ -104,13 +135,22 @@ public class GhostReplayRecorder : MonoBehaviour
                 // NAME (replay will use this)
                 who = display,
 
+                // ROLE for correct prefab spawning
+                role = role,
+
                 // COLOR
                 bodyColor = c,
+
+                // Movement
+                isWalking = isWalking,
 
                 head = LocalPoseTo(tr.head, tr.transform),
                 left = LocalPoseTo(tr.leftHand, tr.transform),
                 right = LocalPoseTo(tr.rightHand, tr.transform),
-                root = PoseTo(tr.transform)
+                root = PoseTo(tr.transform),
+
+                // Organs at this frame
+                organs = organDataList.Count > 0 ? organDataList : null
             };
 
             _writer.WriteLine(JsonUtility.ToJson(line));
@@ -157,6 +197,9 @@ public class GhostReplayRecorder : MonoBehaviour
         // NAME
         public string who;
 
+        // ROLE for spawning correct prefab in replay
+        public string role;
+
         // COLOR
         public Color bodyColor;
 
@@ -164,6 +207,22 @@ public class GhostReplayRecorder : MonoBehaviour
         public PoseData left;
         public PoseData right;
         public PoseData root;
+
+        // Movement
+        public bool isWalking;
+
+        // Organ tracking
+        public List<OrganData> organs;
+    }
+
+    [Serializable]
+    public class OrganData
+    {
+        public string id;
+        public string organType;
+        public float px, py, pz;
+        public float rx, ry, rz, rw;
+        public float sx, sy, sz;
     }
 
     [Serializable]

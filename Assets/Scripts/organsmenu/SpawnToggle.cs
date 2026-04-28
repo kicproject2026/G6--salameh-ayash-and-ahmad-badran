@@ -30,6 +30,11 @@ public class SpawnToggle : MonoBehaviour
             }
 
             instance = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+
+            if (instance != null && instance.GetComponent<OrganTrackable>() == null)
+            {
+                instance.AddComponent<OrganTrackable>();
+            }
         }
         else
         {

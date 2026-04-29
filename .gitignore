@@ -1,0 +1,22 @@
+# Unity generated
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+
+# User settings (VERY IMPORTANT)
+UserSettings/
+
+# IDE
+.vs/
+*.csproj
+*.sln
+*.user
+
+# Cache
+*.pidb
+*.booproj
+*.pdb
+*.mdb

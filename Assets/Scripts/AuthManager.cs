@@ -10,6 +10,13 @@ public class UserData
     public string username;
     public string password;
     public string role; // "Doctor" or "Patient"
+
+    // --- Campos clínicos del Paciente (opcionales para Doctor) ---
+    public string age;
+    public string patientId;     // Número de identificación del paciente
+    public string height;        // Ej: "1.72m"
+    public string weight;        // Ej: "68kg"
+    public string description;   // Notas clínicas o descripción libre
 }
 
 [Serializable]
@@ -30,6 +37,16 @@ public class AuthManager : MonoBehaviour
     public TMP_InputField signupPasswordInput;
     public TMP_Dropdown   signupRoleDropdown;
 
+    [Header("Sign Up — Campos Paciente (opcionales)")]
+    [Tooltip("Solo visible/relevante cuando el rol es Paciente.")]
+    public TMP_InputField signupAgeInput;
+    public TMP_InputField signupPatientIdInput;
+    public TMP_InputField signupHeightInput;
+    public TMP_InputField signupWeightInput;
+    public TMP_InputField signupDescriptionInput;
+    [Tooltip("Panel que contiene los campos clínicos. Se puede mostrar/ocultar según el rol seleccionado.")]
+    public GameObject patientFieldsPanel;
+
     [Header("Panels")]
     public GameObject loginPanel;
     public GameObject signupPanel;
@@ -44,6 +61,12 @@ public class AuthManager : MonoBehaviour
     {
         LoadDB();
         ShowLogin();
+
+        signupRoleDropdown.onValueChanged.AddListener(index => {
+            bool isPatient = signupRoleDropdown.options[index].text == "Patient";
+            if (patientFieldsPanel != null)
+                patientFieldsPanel.SetActive(isPatient);
+        });
     }
 
     // ------- database in PlayerPrefs --------
@@ -102,9 +125,15 @@ public class AuthManager : MonoBehaviour
 
         UserData newUser = new UserData
         {
-            username = username,
-            password = password,
-            role = role
+            username    = username,
+            password    = password,
+            role        = role,
+            // Campos clínicos — solo se guardan si el usuario los completó
+            age         = signupAgeInput         != null ? signupAgeInput.text.Trim()         : "",
+            patientId   = signupPatientIdInput    != null ? signupPatientIdInput.text.Trim()    : "",
+            height      = signupHeightInput       != null ? signupHeightInput.text.Trim()       : "",
+            weight      = signupWeightInput       != null ? signupWeightInput.text.Trim()       : "",
+            description = signupDescriptionInput  != null ? signupDescriptionInput.text.Trim()  : ""
         };
 
         db.users.Add(newUser);

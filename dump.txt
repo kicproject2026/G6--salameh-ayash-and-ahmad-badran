@@ -1,0 +1,19 @@
+--- STATUS DUMP ---
+LocalBodyRig_Doctor: Found
+  Has LocalBodyRig: True
+  bodyRoot: mixamorig:Hips
+  xrCamera: null
+  hiddenRenderers count: 3
+  visibleRenderers count: 2
+LocalBodyRig_Patient: Found
+VRAvatarDoctor: Missing
+VRAvatarPatient: Found
+  Has PatientInfoSync: True
+XR Origin (VR): Found
+  Has HandInteractionSetup: True
+  Has DoctorPatientInteractor: True
+  handTrackingRig: HandTrackingRig
+  controllerRig: ControllerRig
+  patientInfoCanvas: null
+PatientInfoCanvas: Found
+DrawingBoard: Found

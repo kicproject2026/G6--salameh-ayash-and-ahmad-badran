@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: -4820607964178991314}
   - component: {fileID: 2340513857299696365}
   - component: {fileID: 1665872100648597559}
+  - component: {fileID: 4629775581190334972}
   m_Layer: 0
   m_Name: Brain
   m_TagString: Untagged
@@ -361,6 +362,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9b10ee4177e3c44a1afd5be7d1e9c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OrganTrackable
+--- !u!114 &4629775581190334972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4637562118685321190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a896665d7e81a9c45b2ad984fd91dad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FullRotationGrabTransformer
+  m_PermittedDisplacementAxes: -1
+  m_ConstrainedAxisDisplacementMode: 1
+  m_TwoHandedRotationMode: 1
+  m_AllowOneHandedScaling: 1
+  m_AllowTwoHandedScaling: 0
+  m_OneHandedScaleSpeed: 0.5
+  m_ThresholdMoveRatioForScale: 0.05
+  m_ClampScaling: 1
+  m_MinimumScaleRatio: 0.25
+  m_MaximumScaleRatio: 2
+  m_ScaleMultiplier: 0.25
+  snapSmoothFactor: 0.15
+  smoothRotation: 1
+  rotationSmoothSpeed: 15
+  enableInspectionRotation: 1
+  inspectionSpeed: 120
+  rightJoystickAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Right Joystick
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 6984436a-cb8c-4315-957f-37e705f7e0c7
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -6493913391331992944, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &5338040555139351496
 GameObject:
   m_ObjectHideFlags: 0

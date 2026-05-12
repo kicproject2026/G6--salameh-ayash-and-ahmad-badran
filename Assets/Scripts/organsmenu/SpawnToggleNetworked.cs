@@ -53,7 +53,7 @@ public class SpawnToggleNetworked : MonoBehaviour
                     new Dictionary<string, object>
                     {
                         { "objectType", auditObjectType },
-                        { "prefabPath", prefabPath },   // ✅ IMPORTANT
+                        { "prefabPath", prefabPath },
                         { "px", p.x }, { "py", p.y }, { "pz", p.z },
                         { "rx", r.x }, { "ry", r.y }, { "rz", r.z }, { "rw", r.w }
                     }

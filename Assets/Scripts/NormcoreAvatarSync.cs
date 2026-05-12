@@ -34,6 +34,7 @@ public class NormcoreAvatarSync : RealtimeComponent<RealtimeAvatarModel> {
     private Bounds _bodyBounds;
     private Bounds _legBounds;
     private Vector3 _baseBodyScale;
+    private float _avatarLowestPointOffset = 0f;
 
     private void Start() {
         FindXRNodes();
@@ -51,6 +52,13 @@ public class NormcoreAvatarSync : RealtimeComponent<RealtimeAvatarModel> {
             _legBounds = GetLocalBounds(rightLeg);
         } else {
             _legBounds = new Bounds(Vector3.zero, Vector3.one);
+        }
+
+        // Calcular qué tan arriba del origen (y=0) están los pies del avatar en su forma estática
+        if (leftLeg) {
+            _avatarLowestPointOffset = leftLeg.localPosition.y + (_legBounds.min.y * leftLeg.localScale.y);
+        } else if (body) {
+            _avatarLowestPointOffset = body.localPosition.y + (_bodyBounds.min.y * body.localScale.y);
         }
     }
 
@@ -99,9 +107,13 @@ public class NormcoreAvatarSync : RealtimeComponent<RealtimeAvatarModel> {
 
         Vector3 targetHeadPos = _xrCamera.position + Vector3.up * heightOffset;
 
+        // Establecemos la posición en el piso (floorY)
         transform.position = new Vector3(_xrCamera.position.x, floorY, _xrCamera.position.z);
         transform.rotation = GetYawOnlyRotation(_xrCamera.rotation, _xrCamera.forward);
 
+        // -- MODIFICACIÓN: Desactivada la sincronización de cabeza, manos y deformación del cuerpo --
+        // El usuario solicitó solo sincronizar posición y rotación general para evitar que el avatar se deforme.
+        /*
         if (head) {
             head.position = targetHeadPos;
             head.rotation = _xrCamera.rotation;
@@ -110,9 +122,12 @@ public class NormcoreAvatarSync : RealtimeComponent<RealtimeAvatarModel> {
         SyncHandWithOffset(rightHand, _xrRightHand, heightOffset);
 
         UpdateVisualRig(floorY, targetHeadPos);
+        */
     }
 
     private void UpdateVisualRig(float floorY, Vector3 targetHeadPos) {
+        // Método desactivado para evitar deformar las extremidades del avatar
+        /*
         float rawLegHeight = Mathf.Max(_legBounds.size.y, 0.01f);
         float legScaleY = targetLegHeight / rawLegHeight;
         
@@ -144,11 +159,12 @@ public class NormcoreAvatarSync : RealtimeComponent<RealtimeAvatarModel> {
             body.position = new Vector3(head.position.x, bodyPivotY, head.position.z);
             body.rotation = transform.rotation;
         }
+        */
     }
 
     private void HideAvatarLocally() {
         foreach (var r in GetComponentsInChildren<Renderer>(true))
-            r.enabled = false;
+            r.enabled = true; // false to hide player avatar
         _localVisualsHidden = true;
     }
 

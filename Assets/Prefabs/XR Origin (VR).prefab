@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &186274840380041506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6141690383060293433}
+  m_Layer: 0
+  m_Name: ControllerRig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6141690383060293433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186274840380041506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3736151214258569538}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1925669335500197557
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,6 +378,37 @@ MonoBehaviour:
   m_TrackingType: 0
   m_UpdateType: 0
   m_UseRelativeTransform: 0
+--- !u!1 &3331373461761666719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5913941331507059498}
+  m_Layer: 0
+  m_Name: HandTrackingRig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5913941331507059498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3331373461761666719}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3736151214258569538}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4563910032984738237
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,6 +427,8 @@ GameObject:
   - component: {fileID: 601872478238699727}
   - component: {fileID: 8129775799050433350}
   - component: {fileID: 6215042727558658868}
+  - component: {fileID: 272564312730823465}
+  - component: {fileID: 2729586723597229685}
   m_Layer: 0
   m_Name: XR Origin (VR)
   m_TagString: Untagged
@@ -595,6 +659,42 @@ MonoBehaviour:
   xrHead: {fileID: 6587933129642003640}
   xrLeftHand: {fileID: 1083958234896187147}
   xrRightHand: {fileID: 2653860724608245660}
+--- !u!114 &272564312730823465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4563910032984738237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b13e17b809efb1418790a9d42c12294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandInteractionSetup
+  handTrackingRig: {fileID: 3331373461761666719}
+  controllerRig: {fileID: 186274840380041506}
+  checkInterval: 1
+  debugLogs: 1
+--- !u!114 &2729586723597229685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4563910032984738237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe2df72461e584459a70fe578db2735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoctorPatientInteractor
+  doctorCamera: {fileID: 0}
+  patientInfoCanvas: {fileID: 0}
+  maxRayDistance: 5
+  patientLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  openCanvasAction: {fileID: 0}
+  enableKeyboardFallback: 1
 --- !u!1 &6325712271889495541
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,5 +727,7 @@ Transform:
   - {fileID: 6587933129642003640}
   - {fileID: 1083958234896187147}
   - {fileID: 2653860724608245660}
+  - {fileID: 6141690383060293433}
+  - {fileID: 5913941331507059498}
   m_Father: {fileID: 5250286989523660911}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

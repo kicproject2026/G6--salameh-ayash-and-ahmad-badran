@@ -1,0 +1,4 @@
+- Starting full autonomous integration process v17 - SCENE INSTANCE FIX.
+- Warning: DrawingBoard 'drawAction' is not set. Please assign an Input Action (e.g., XRI RightHand/Select).
+- DrawingBoard and StrokeRenderer updated with persistent materials and thicker lines.
+- Warning: No Interactors found in XR Origin prefab.

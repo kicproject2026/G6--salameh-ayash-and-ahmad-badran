@@ -1,0 +1,23 @@
+# Auto-Integration Report
+
+- Starting full autonomous integration process.
+- Avatar prefab not found at Assets/Resources/VRAvatarDoctor.prefab.
+- VRAvatarPatient already has PatientInfoSync.
+- PatientInfoCanvas already exists.
+- DrawingBoard already exists.
+- Fixed grab transformers on 0 objects.
+- No RealtimePrefabs assets found to register prefabs.
+- Opening and integrating specific scene: Assets/Meeting_Room/Meeting_Room.unity
+- Integrating active scene: Meeting_Room
+- Found XR Origin in scene: XR Origin (XR Rig). Applying fixes...
+- Integration complete. Report saved to integration_report.md
+- Starting full autonomous integration process.
+- Avatar prefab not found at Assets/Resources/VRAvatarDoctor.prefab.
+- VRAvatarPatient already has PatientInfoSync.
+- PatientInfoCanvas already exists.
+- DrawingBoard already exists.
+- Fixed grab transformers on 0 objects.
+- No RealtimePrefabs assets found to register prefabs.
+- Opening and integrating specific scene: Assets/Meeting_Room/Meeting_Room.unity
+- Integrating active scene: Meeting_Room
+- Found XR Origin in scene: XR Origin (XR Rig). Applying fixes...

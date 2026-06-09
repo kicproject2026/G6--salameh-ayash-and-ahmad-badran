@@ -473,6 +473,21 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         }
 
         /// <summary>
+        /// Moves the keyboard root directly to a target transform.
+        /// Useful for wiring a fixed anchor from the Inspector.
+        /// </summary>
+        /// <param name="target">Transform used as the new keyboard position and rotation.</param>
+        public void RepositionToTarget(Transform target)
+        {
+            if (target == null)
+            {
+                return;
+            }
+
+            transform.SetPositionAndRotation(target.position, target.rotation);
+        }
+
+        /// <summary>
         /// Function to reposition the keyboard based on target transform and collider information 
         /// </summary>
         /// <param name="objectTransform">Transform of target object to remain relative to</param>

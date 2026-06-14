@@ -239,6 +239,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         private AudioSource _audioSource;
 
+        private TMP_InputField[] allInputFields;
+
         /// <summary>
         /// Dictation System
         /// </summary>
@@ -298,6 +300,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
 
             //dictationSystem = CoreServices.GetInputSystemDataProvider<IMixedRealityDictationSystem>();
 
+            allInputFields = FindObjectsOfType<TMP_InputField>();
+
             // Delegate Subscription
             if (InputField != null)
                 InputField.onValueChanged.AddListener(DoTextUpdated);
@@ -334,9 +338,50 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
             }
 
             CheckForCloseOnInactivityTimeExpired();
+
+            // Robustly check for focused input fields
+            if (InputField == null || !InputField.isFocused)
+            {
+                if (UnityEngine.EventSystems.EventSystem.current != null)
+                {
+                    GameObject selectedGO = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+                    if (selectedGO != null)
+                    {
+                        TMP_InputField tmpField = selectedGO.GetComponent<TMP_InputField>();
+                        if (tmpField != null && tmpField != InputField)
+                        {
+                            OnSelect(tmpField);
+                        }
+                    }
+                }
+
+                // Fallback: check if any input field in the scene is focused
+                if (InputField == null || !InputField.isFocused)
+                {
+                    if (allInputFields == null)
+                    {
+                        allInputFields = FindObjectsOfType<TMP_InputField>();
+                    }
+                    foreach (var field in allInputFields)
+                    {
+                        if (field != null && field.isFocused && field != InputField)
+                        {
+                            OnSelect(field);
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-        private void UpdateCaretPosition(int newPos) => InputField.caretPosition = newPos;
+        private void UpdateCaretPosition(int newPos)
+        {
+            if (InputField != null)
+            {
+                InputField.caretPosition = newPos;
+                InputField.ActivateInputField();
+            }
+        }
 
         /// <summary>
         /// Called whenever the keyboard is disabled or deactivated.
@@ -630,6 +675,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// <param name="valueKey">The valueKey of the pressed key.</param>
         public void AppendValue(KeyboardValueKey valueKey)
         {
+            if (InputField == null) return;
+
             IndicateActivity();
             string value = "";
 
@@ -765,6 +812,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         public void Backspace()
         {
+            if (InputField == null) return;
+
             // check if text is selected
             if (InputField.selectionFocusPosition != InputField.caretPosition || InputField.selectionAnchorPosition != InputField.caretPosition)
             {
@@ -818,6 +867,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         public void Enter()
         {
+            if (InputField == null) return;
+
             if (SubmitOnEnter)
             {
                 // Send text entered event and close the keyboard
@@ -869,6 +920,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         public void Space()
         {
+            if (InputField == null) return;
+
             m_CaretPosition = InputField.caretPosition;
             InputField.text = InputField.text.Insert(m_CaretPosition++, " ");
 
@@ -880,6 +933,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         public void Tab()
         {
+            if (InputField == null) return;
+
             string tabString = "\t";
 
             m_CaretPosition = InputField.caretPosition;
@@ -895,6 +950,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         public void MoveCaretLeft()
         {
+            if (InputField == null) return;
+
             m_CaretPosition = InputField.caretPosition;
 
             if (m_CaretPosition > 0)
@@ -909,6 +966,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         public void MoveCaretRight()
         {
+            if (InputField == null) return;
+
             m_CaretPosition = InputField.caretPosition;
 
             if (m_CaretPosition < InputField.text.Length)
@@ -940,6 +999,8 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
         /// </summary>
         public void Clear()
         {
+            if (InputField == null) return;
+
             ResetKeyboardState();
             if (InputField.caretPosition != 0)
             {

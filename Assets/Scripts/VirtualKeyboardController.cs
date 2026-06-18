@@ -26,6 +26,8 @@ public class VirtualKeyboardController : MonoBehaviour
         activeField = field;
         if (keyboardRoot != null) keyboardRoot.SetActive(true);
         activeField.ActivateInputField();
+        activeField.selectionAnchorPosition = activeField.text.Length;
+        activeField.selectionFocusPosition = activeField.text.Length;
         activeField.caretPosition = activeField.text.Length;
     }
 
@@ -33,8 +35,10 @@ public class VirtualKeyboardController : MonoBehaviour
     {
         if (activeField == null) return;
         activeField.text += value;
-        activeField.caretPosition = activeField.text.Length;
         activeField.ActivateInputField();
+        activeField.selectionAnchorPosition = activeField.text.Length;
+        activeField.selectionFocusPosition = activeField.text.Length;
+        activeField.caretPosition = activeField.text.Length;
     }
 
     public void Backspace()
@@ -43,8 +47,10 @@ public class VirtualKeyboardController : MonoBehaviour
         if (activeField.text.Length == 0) return;
 
         activeField.text = activeField.text.Substring(0, activeField.text.Length - 1);
-        activeField.caretPosition = activeField.text.Length;
         activeField.ActivateInputField();
+        activeField.selectionAnchorPosition = activeField.text.Length;
+        activeField.selectionFocusPosition = activeField.text.Length;
+        activeField.caretPosition = activeField.text.Length;
     }
 
     public void Close()
@@ -67,5 +73,22 @@ public class VirtualKeyboardController : MonoBehaviour
             authManager.OnLogin();
 
         Close();
+    }
+
+    void Update()
+    {
+        if (activeField != null && activeField.isFocused)
+        {
+            if (activeField.selectionAnchorPosition != activeField.caretPosition || activeField.selectionFocusPosition != activeField.caretPosition)
+            {
+                int selectionLength = Mathf.Abs(activeField.selectionAnchorPosition - activeField.selectionFocusPosition);
+                if (selectionLength == activeField.text.Length)
+                {
+                    activeField.selectionAnchorPosition = activeField.text.Length;
+                    activeField.selectionFocusPosition = activeField.text.Length;
+                    activeField.caretPosition = activeField.text.Length;
+                }
+            }
+        }
     }
 }
